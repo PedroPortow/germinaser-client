@@ -1,7 +1,6 @@
-import { LoginPayload } from '@types'
+import { LoginPayload, LoginResponse } from '@types/auth.ts'
 import api from './api'
 
-export const apiPostLogin = ({ email: string }: LoginPayload) => (
-  api.post('/login', {user: { email, password },
-  })
+export const apiPostLogin = ({ email, password }: LoginPayload): Promise<LoginResponse> => (
+  api.post('/login', { user: { email, password }})
 )

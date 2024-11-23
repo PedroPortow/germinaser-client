@@ -15,6 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@ui/form";
+import { useLoginMutation } from "@/hooks/mutations/usePostLogin";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Por favor, insira um email válido." }),
@@ -26,16 +27,27 @@ const FormSchema = z.object({
 export default function Login() {
   const router = useRouter();
 
+  const onSuccess = (data: z.infer<typeof FormSchema>) => {
+    console.log({data})
+
+    router.push('/dale')
+    // router.navigate('')
+  }
+
+  const { postLogin } = useLoginMutation({
+    onSuccess,
+  })
+
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: "pedrolportow@gmail.com",
+      password: "123456",
     },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-
+    postLogin(data);
   }
 
   return (
