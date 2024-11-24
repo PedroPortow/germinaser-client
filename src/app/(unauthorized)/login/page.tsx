@@ -15,7 +15,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@ui/form";
-import { useLoginMutation } from "@/hooks/mutations/usePostLogin";
+import { usePostLogin } from "@/hooks/mutations";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@ui/toast";
+import { useAuthContext } from "@/hooks";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Por favor, insira um email válido." }),
@@ -25,24 +28,42 @@ const FormSchema = z.object({
 });
 
 export default function Login() {
-  const router = useRouter();
+  const router = useRouter()
+ 
+  const { postLogin } = usePostLogin({
+    onSuccess,
+    onError
+  })
 
-  const onSuccess = (data: z.infer<typeof FormSchema>) => {
+  const { JWT_LOCAL_STORAGE_KEY } = useAuthContext()
+
+  const { toast } = useToast()
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function onSuccess(data: any) {
+    const { authorization } = data.headers
+
+    if (authorization) localStorage.setItem(JWT_LOCAL_STORAGE_KEY, authorization)
+  }
+  function onError(data: z.infer<typeof FormSchema>) {
     console.log({data})
 
-    router.push('/dale')
+    toast({
+      variant: "destructive",
+      title: "Ops! Senha inválida",
+      description: "Tasdasd.",
+      action: <ToastAction altText="Tentar again">Try again</ToastAction>,
+    })
+    // router.push('/dale')
     // router.navigate('')
   }
 
-  const { postLogin } = useLoginMutation({
-    onSuccess,
-  })
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: "pedrolportow@gmail.com",
-      password: "123456",
+      password: "132456",
     },
   });
 

@@ -1,27 +1,36 @@
 'use client';
 
-import React, { createContext, useEffect } from 'react';
-import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { getCurrentUser } from '../services/authService';
-
-interface AuthContextType {
-  user: any;
+import React, { createContext, useEffect, useState } from 'react';
+import { User } from '@/types/user';
+import { useGetCurrentUser } from '@/hooks';
+export interface AuthContextType {
+  user: User | undefined;
   isLoading: boolean;
   isAuthenticated: boolean;
+  JWT_LOCAL_STORAGE_KEY: string;
 }
+
+const JWT_LOCAL_STORAGE_KEY = 'userToken'
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  // const { data: user, isLoading } = useQuery(['currentUser'], getCurrentUser, {
-  //   retry: false,
-  // });
+  const [token, setToken] = useState<string | null>(null)
 
-  // const isAuthenticated = !!user;
-  const oi = 'string'
+  const { data: user, isLoading } = useGetCurrentUser({ enabled: Boolean(token) });
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem(JWT_LOCAL_STORAGE_KEY);
+
+    setToken(storedToken);
+  }, []);
+
+  const isAuthenticated = !!user && !isLoading;
+
+  console.log({user})
 
   return (
-    <AuthContext.Provider value={{ oi }}>
+    <AuthContext.Provider value={{ user, isLoading, isAuthenticated, JWT_LOCAL_STORAGE_KEY }}>
       {children}
     </AuthContext.Provider>
   );

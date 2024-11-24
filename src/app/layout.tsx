@@ -4,6 +4,7 @@ import { Poppins } from 'next/font/google';
 import './globals.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from '@/context/AuthContext';
+import { Toaster } from '@ui/toaster';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -24,6 +25,7 @@ export default function RootLayout({
         <QueryClientProvider client={queryClient}>
           <AuthProvider>{children}</AuthProvider>
         </QueryClientProvider>
+        <Toaster />
       </body>
     </html>
   );
