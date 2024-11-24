@@ -1,49 +1,68 @@
-'use client';
-
 import {
-  Bell,
-  Bookmark,
-  Home,
-  List,
-  Mail,
-  MoreHorizontal,
-  Plus,
-  User,
-  Users,
-} from 'lucide-react';
-import { SidebarItems } from '@/types/sidebarItems';
-import { useMediaQuery } from 'usehooks-ts';
+  Sidebar ,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@ui/sidebar"
+import Image from "next/image"
+import logoImg from '@/../public/germina.png'
+import { SidebarItem } from "@/types/sidebar"
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
-import { SidebarDesktop, SidebarButton, SidebarMobile } from './components';
+interface SidebarProps {
+  items: SidebarItem[];
+}
 
-const sidebarItems: SidebarItems = {
-  links: [
-    { label: 'Home', href: '/', icon: Home },
-    { label: 'Minhas Reservas', href: '/bookings', icon: Bell },
-  ],
-  extras: (
-    <div className='flex flex-col gap-2'>
-      {/* <SidebarButton icon={MoreHorizontal} className='w-full'>
-        More
-      </SidebarButton> */}
-      <SidebarButton
-        className='w-full mt-4 justify-center text-white'
-        variant='default'
-      >
-        + Fazer Reserva
-      </SidebarButton>
-    </div>
-  ),
-};
+export default function AppSidebar({ items }: SidebarProps) {
+  const router = useRouter();
 
-export default function Sidebar() {
-  const isDesktop = useMediaQuery('(min-width: 640px)', {
-    initializeWithValue: false,
-  });
 
-  if (isDesktop) {
-    return <SidebarDesktop sidebarItems={sidebarItems} />;
-  }
-
-  return <SidebarMobile sidebarItems={sidebarItems} />;
+  return (
+    <Sidebar>
+      <SidebarHeader>
+        <Image
+          src={logoImg}
+          alt= "GerminaSer logo"
+        />
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          {/* <SidebarGroupLabel>Application</SidebarGroupLabel> */}
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <a href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Button
+                      onClick={() => router.push('/bookings/new')}
+                    >+ Fazer Reserva</Button>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
+  )
 }

@@ -1,20 +1,45 @@
 "use client";
-
-import { useState } from "react";
-import Link from "next/link";
+import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+import { SidebarProvider, SidebarTrigger } from "@ui/sidebar"
 import { Sidebar } from "@/components";
-// import { FiHome, FiUser, FiSettings, FiLogOut, FiMenu } from "react-icons/fi";
+ 
+const SIDEBAR_ITEMS = [
+  {
+    title: "Home",
+    url: "#",
+    icon: Home,
+  },
+  {
+    title: "Reservas",
+    url: "#",
+    icon: Inbox,
+  },
+]
+
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar
-
+    <SidebarProvider>
+      <Sidebar 
+        items={SIDEBAR_ITEMS}
       />
-      <div className="flex-1 flex flex-col w-full">
+      <main>
+        <SidebarTrigger />
         {children}
-      </div>
-    </div>
- 
+      </main>
+    </SidebarProvider>
   );
 }
+
+
+// return (
+//   <div className="flex h-screen overflow-hidden">
+//     <Sidebar
+
+//     />
+//     <div className="flex-1 flex flex-col w-full">
+//       {children}
+//     </div>
+//   </div>
+
+// );
