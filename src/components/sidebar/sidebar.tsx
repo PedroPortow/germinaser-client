@@ -7,6 +7,7 @@ import {
   List,
   Mail,
   MoreHorizontal,
+  Plus,
   User,
   Users,
 } from 'lucide-react';
@@ -18,39 +19,18 @@ import { SidebarDesktop, SidebarButton, SidebarMobile } from './components';
 const sidebarItems: SidebarItems = {
   links: [
     { label: 'Home', href: '/', icon: Home },
-    { label: 'Notifications', href: '/bookings/notifications', icon: Bell },
-    { label: 'Messages', href: '/item/messages', icon: Mail },
-    {
-      href: '/item/lists',
-      icon: List,
-      label: 'Lists',
-    },
-    {
-      href: '/item/bookmarks',
-      icon: Bookmark,
-      label: 'Bookmarks',
-    },
-    {
-      href: '/item/communities',
-      icon: Users,
-      label: 'Communities',
-    },
-    {
-      href: '/item/profile',
-      icon: User,
-      label: 'Profile',
-    },
+    { label: 'Minhas Reservas', href: '/bookings', icon: Bell },
   ],
   extras: (
     <div className='flex flex-col gap-2'>
-      <SidebarButton icon={MoreHorizontal} className='w-full'>
+      {/* <SidebarButton icon={MoreHorizontal} className='w-full'>
         More
-      </SidebarButton>
+      </SidebarButton> */}
       <SidebarButton
-        className='w-full justify-center text-white'
+        className='w-full mt-4 justify-center text-white'
         variant='default'
       >
-        Tweet
+        + Fazer Reserva
       </SidebarButton>
     </div>
   ),

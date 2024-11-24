@@ -21,14 +21,14 @@ export default function SidebarDesktop(props: SidebarDesktopProps) {
   const pathname = usePathname();
 
   return (
-    <aside className='w-[270px] max-w-xs h-screen left-0 top-0 z-40 border-r'>
-      <div className='h-full px-3 py-4'>
+    <aside className='w-[270px] max-w-xs left-0 top-0 z-40 border-r'>
+      <div className='h-full px-3 h-full py-4'>
         <Image 
           src={logoImg}  
           className='mx-3 text-lg font-semibold text-foreground' 
           alt="GerminaSer logo"
         />
-        <div className='mt-5'>
+        <div className='mt-5 flex flex-col justify-between'>
           <div className='flex flex-col gap-1 w-full'>
             {props.sidebarItems.links.map((link, index) => (
               <Link key={index} href={link.href}>
@@ -43,7 +43,7 @@ export default function SidebarDesktop(props: SidebarDesktopProps) {
             ))}
             {props.sidebarItems.extras}
           </div>
-          <div className='absolute left-0 bottom-3 w-full px-3'>
+          <div className='left-0 bottom-3 w-full px-3'>
             <Separator className='absolute -top-3 left-0 w-full' />
             <Popover>
               <PopoverTrigger asChild>

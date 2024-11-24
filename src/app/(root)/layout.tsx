@@ -12,7 +12,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
       />
       <div className="flex-1 flex flex-col w-full">
-          asd
         {children}
       </div>
     </div>
