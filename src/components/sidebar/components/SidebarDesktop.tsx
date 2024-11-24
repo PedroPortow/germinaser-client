@@ -9,6 +9,9 @@ import { Button } from '@ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@ui/avatar';
 import { LogOut, MoreHorizontal, Settings } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
+
+import logoImg from '@/../public/germina.png'
 
 interface SidebarDesktopProps {
   sidebarItems: SidebarItems;
@@ -18,9 +21,13 @@ export default function SidebarDesktop(props: SidebarDesktopProps) {
   const pathname = usePathname();
 
   return (
-    <aside className='w-[270px] max-w-xs h-screen fixed left-0 top-0 z-40 border-r'>
+    <aside className='w-[270px] max-w-xs h-screen left-0 top-0 z-40 border-r'>
       <div className='h-full px-3 py-4'>
-        <h3 className='mx-3 text-lg font-semibold text-foreground'>Twitter</h3>
+        <Image 
+          src={logoImg}  
+          className='mx-3 text-lg font-semibold text-foreground' 
+          alt="GerminaSer logo"
+        />
         <div className='mt-5'>
           <div className='flex flex-col gap-1 w-full'>
             {props.sidebarItems.links.map((link, index) => (

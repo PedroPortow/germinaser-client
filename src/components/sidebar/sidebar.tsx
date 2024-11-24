@@ -18,7 +18,7 @@ import { SidebarDesktop, SidebarButton, SidebarMobile } from './components';
 const sidebarItems: SidebarItems = {
   links: [
     { label: 'Home', href: '/', icon: Home },
-    { label: 'Notifications', href: '/item/notifications', icon: Bell },
+    { label: 'Notifications', href: '/bookings/notifications', icon: Bell },
     { label: 'Messages', href: '/item/messages', icon: Mail },
     {
       href: '/item/lists',

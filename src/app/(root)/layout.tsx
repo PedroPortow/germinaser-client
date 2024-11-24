@@ -6,15 +6,16 @@ import { Sidebar } from "@/components";
 // import { FiHome, FiUser, FiSettings, FiLogOut, FiMenu } from "react-icons/fi";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
   return (
-    <Sidebar
+    <div className="flex h-screen overflow-hidden">
+      <Sidebar
 
-    />
+      />
+      <div className="flex-1 flex flex-col w-full">
+          asd
+        {children}
+      </div>
+    </div>
+ 
   );
 }
