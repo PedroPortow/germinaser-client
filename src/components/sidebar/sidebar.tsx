@@ -26,7 +26,6 @@ export default function AppSidebar({ items }: SidebarProps) {
 
   return (
     <Sidebar>
-      <SidebarTrigger />
       <SidebarHeader>
         <Image
           src={logoImg}

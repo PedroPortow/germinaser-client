@@ -23,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <Sidebar 
         items={SIDEBAR_ITEMS}
       />
+      <SidebarTrigger />
       <main
         className="overflow-hidden w-full"
       >

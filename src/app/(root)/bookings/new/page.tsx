@@ -17,6 +17,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ClinicSelect, DatePicker, RoomSelect } from "@/components";
+import { Separator } from "@/components/ui/separator";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Por favor, insira um email válido." }),
@@ -31,9 +32,27 @@ export default function Page() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: "pedrolportow@gmail.com",
-      room_id: "123456",
+      clinic_id: "",
+      room_id: "",
+      date: "",
+      timeslot: null
     },
   });
+
+  const availableTimeSlots = [
+    "08:00",
+    "09:00",
+    "10:00",
+    "11:00",
+    "14:00",
+    "15:00",
+    "16:00",
+    "17:00",
+    "18:00",
+    "19:00",
+    "20:00",
+    "21:00",
+  ];
 
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -104,12 +123,35 @@ export default function Page() {
                   <DatePicker />
                 </FormItem>
               )}
-              
             />
+            <Separator className="mb-2" />
+            <FormField
+              control={form.control}
+              name="timeslot"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Horários Disponíveis</FormLabel>
+                  <div className="flex flex-wrap gap-2">
+                    {availableTimeSlots.map((time) => (
+                      <Button
+                        key={time}
+                        className="w-[31.9%]"
+                        variant={field.value === time ? "default" : "outline"}
+                        onClick={() => field.onChange(time)}
+                      >
+                        {time}
+                      </Button>
+                    ))}
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
           </form>
         </Form>
           <Button type="submit" className="w-full mt-16">
-            Registrar
+            Reservar
           </Button>
       </div>
     </div>
