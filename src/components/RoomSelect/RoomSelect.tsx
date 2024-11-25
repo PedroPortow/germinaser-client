@@ -23,6 +23,7 @@ const RoomSelect: React.FC<RoomSelectProps> = ({ value, onValueChange, clinicId 
     <Select
       value={value}
       onValueChange={onValueChange}
+      disabled={!clinicId}
     >
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Selecione uma sala" />

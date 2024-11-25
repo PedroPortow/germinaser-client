@@ -11,11 +11,27 @@ import {
   FormLabel,
   FormMessage,
 } from "@ui/form";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@ui/alert-dialog"
+
+
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ClinicSelect, DatePicker, RoomSelect } from "@/components";
 import { Separator } from "@/components/ui/separator";
+import { useGetDayAvailableTimeslots } from "@/hooks";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Por favor, insira um email válido." }),
@@ -39,22 +55,23 @@ export default function Page() {
     },
   });
 
-  const availableTimeSlots = [
-    "08:00",
-    "09:00",
-    "10:00",
-    "11:00",
-    "14:00",
-    "15:00",
-    "16:00",
-    "17:00",
-    "18:00",
-    "19:00",
-    "20:00",
-    "21:00",
-  ];
-
   const selectedClinicId = form.watch("clinic_id");
+  const selectedRoomId = form.watch("room_id");
+  const selectedDate = form.watch("date");
+
+  const { data: availableTimeSlots = [], isLoading: isLoadingAvaibleTimeslots } = useGetDayAvailableTimeslots({
+    params: {
+      room_id: selectedRoomId,
+      date: selectedDate,
+    },
+    options: {
+      enabled: Boolean(selectedRoomId && selectedDate),
+    },
+  });
+
+  console.log({ availableTimeSlots})
+
+
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     // Handle form submission
@@ -123,33 +140,58 @@ export default function Page() {
                 </FormItem>
               )}
             />
-            <Separator className="mb-2" />
-            <FormField
-              control={form.control}
-              name="timeslot"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Horários Disponíveis</FormLabel>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    {availableTimeSlots.map((time) => (
-                      <Button
-                        key={time}
-                        className="w-full" // Make buttons take full width of grid cell
-                        variant={field.value === time ? "default" : "outline"}
-                        type="button" 
-                        onClick={() => field.onChange(time)}
-                      >
-                        {time}
-                      </Button>
-                    ))}
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" className="w-full mt-4">
-              Reservar
-            </Button>
+            {Boolean(selectedClinicId && selectedRoomId) && (
+               <FormField
+               control={form.control}
+               name="timeslot"
+               render={({ field }) => (
+                 <FormItem className="flex flex-col">
+                   <FormLabel>Horários Disponíveis</FormLabel>
+                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                     {true 
+                       ? Array.from({ length: 6 }).map((_, index) => (
+                           <Skeleton 
+                             key={index} 
+                             className="h-10 w-full rounded-md" 
+                           />
+                         ))
+                       : availableTimeSlots.map((time) => (
+                         <Button
+                           key={time}
+                           className="w-full" 
+                           variant={field.value === time ? "default" : "outline"}
+                           type="button" 
+                           onClick={() => field.onChange(time)}
+                         >
+                           {time}
+                         </Button>
+                       ))
+                     }
+                   </div>
+                   <FormMessage />
+                 </FormItem>
+               )}
+             />
+            )}
+            <AlertDialog>
+              <AlertDialogTrigger className="w-full">
+                <Button type='button' className="w-full mt-4">
+                  Reservar
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Confirme as informações</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Esta ação vai consumir um crédito, em caso de cancelamento você tem até o dia anterior para ter seu crédito retornado
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction type="submit">Confirmar Reserva</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </form>
         </Form>
       </div>
