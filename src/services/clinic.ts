@@ -1,9 +1,23 @@
 import { Clinic } from "@/types/clinic";
 import api from "./api";
+import { Room } from "@/types/room";
 
 export const apiGetClinics = async (): Promise<Clinic[]> => {
-  const response = await api.get<Clinic[]>('/clinics');
-  return response.data;
+  try {
+    const response = await api.get<Clinic[]>('/clinics');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 
-export const apiGetClinicRooms = (clinicId: number) => api.get(`/clinics/${clinicId}/rooms`)
+export const apiGetClinicRooms = async (clinicId: number | undefined): Promise<Room[]> => {
+  try {
+    const response = await api.get<Room[]>(`/clinics/${clinicId}/rooms`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

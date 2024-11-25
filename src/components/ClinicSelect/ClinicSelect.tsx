@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react';
 import { useGetClinics } from '@/hooks';
 import {
@@ -15,12 +17,14 @@ interface ClinicSelectProps {
 }
 
 const ClinicSelect: React.FC<ClinicSelectProps> = ({ value, onValueChange }) => {
-  const { data: clinics } = useGetClinics({ enabled: true });
+  const { data: clinics } = useGetClinics();
 
+  console.log({value})
+  
   return (
     <Select value={value} onValueChange={onValueChange}>
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select Clinic" />
+        <SelectValue placeholder="Selecione uma clínica" />
       </SelectTrigger>
       <SelectContent>
         {clinics?.map((clinic: Clinic) => (

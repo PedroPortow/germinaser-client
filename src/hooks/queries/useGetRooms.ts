@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { Room } from '@/types/room';
-import { apiGetRooms } from '@/services/rooms';
+import { apiGetClinicRooms } from '@/services/clinic';
 
 type UseGetRoomsOptions = Omit<
   UseQueryOptions<Room[], Error>,
@@ -8,13 +8,13 @@ type UseGetRoomsOptions = Omit<
 >;
 
 export default function useGetRooms(
-  clinicId?: string,
+  clinicId?: number,
   options?: UseGetRoomsOptions
 ) {
   return useQuery<Room[], Error>({
     queryKey: ['rooms', clinicId],
-    queryFn: () => apiGetRooms(clinicId),
-    enabled: !!clinicId, // Only fetch if clinicId is provided
+    queryFn: () => apiGetClinicRooms(clinicId),
+    enabled: Boolean(clinicId),
     ...options,
   });
 }

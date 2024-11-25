@@ -27,8 +27,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const isAuthenticated = !!user && !isLoading;
 
-  console.log({user})
-
   return (
     <AuthContext.Provider value={{ user, isLoading, isAuthenticated, JWT_LOCAL_STORAGE_KEY }}>
       {children}

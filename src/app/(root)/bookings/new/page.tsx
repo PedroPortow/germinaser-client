@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { Input } from "@ui/input";
 import { Button } from "@ui/button";
-
 import {
   Form,
   FormControl,
@@ -21,8 +20,12 @@ import { Separator } from "@/components/ui/separator";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Por favor, insira um email válido." }),
-  room_id: z
-    .string()
+  clinic_id: z.string().min(1, { message: "Por favor, selecione uma clínica." }),
+  room_id: z.string().min(1, { message: "Por favor, selecione uma sala." }),
+  date: z.date({
+    required_error: "Por favor, selecione uma data.",
+  }),
+  timeslot: z.string().min(1, { message: "Por favor, selecione um horário." }),
 });
 
 export default function Page() {
@@ -34,10 +37,12 @@ export default function Page() {
       email: "pedrolportow@gmail.com",
       clinic_id: "",
       room_id: "",
-      date: "",
-      timeslot: null
+      date: null,
+      timeslot: "",
     },
   });
+
+  const { watch } = form
 
   const availableTimeSlots = [
     "08:00",
@@ -54,12 +59,17 @@ export default function Page() {
     "21:00",
   ];
 
+  
+  const selectedClinicId = form.watch("clinic_id");
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    // Handle form submission
+    console.log("Form data:", data);
+    // You can add your submission logic here
   }
 
   return (
-    <div className="h-full min-w-[75vw] flex items-center justify-center bg-gray-50  px-4">
+    <div className="h-full min-w-[75vw] flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md bg-card p-8 rounded-lg shadow-md">
         <h2 className="text-2xl font-semibold mb-6 text-center">Nova Reserva</h2>
         <Form {...form}>
@@ -75,15 +85,10 @@ export default function Page() {
                 <FormItem>
                   <FormLabel>Nome da Reserva</FormLabel>
                   <FormControl>
-                    <Input
-                      type="email"
-                      {...field}
-                    />
+                    <Input type="email" {...field} />
                   </FormControl>
                   <FormMessage />
-                  <FormDescription>
-                    Exemplo: Paciente João
-                  </FormDescription>
+                  <FormDescription>Exemplo: Paciente João</FormDescription>
                 </FormItem>
               )}
             />
@@ -93,10 +98,8 @@ export default function Page() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Clínica</FormLabel>
-                  <ClinicSelect 
-                    value={1}
-                    onValueChange={field.onChange}
-                  />
+                  <ClinicSelect value={field.value} onValueChange={field.onChange} />
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -106,21 +109,23 @@ export default function Page() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Sala</FormLabel>
-                  <RoomSelect 
-                    value={1}
+                  <RoomSelect
+                    value={field.value}
+                    clinicId={Number(selectedClinicId)}
                     onValueChange={field.onChange}
                   />
+                  <FormMessage />
                 </FormItem>
               )}
-              
             />
             <FormField
               control={form.control}
-              name="room_id"
+              name="date"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Data</FormLabel>
-                  <DatePicker />
+                  <DatePicker selected={field.value} onChange={field.onChange} />
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -147,12 +152,11 @@ export default function Page() {
                 </FormItem>
               )}
             />
-
+            <Button type="submit" className="w-full mt-4">
+              Reservar
+            </Button>
           </form>
         </Form>
-          <Button type="submit" className="w-full mt-16">
-            Reservar
-          </Button>
       </div>
     </div>
   );
