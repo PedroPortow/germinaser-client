@@ -19,6 +19,8 @@ import { usePostLogin } from "@/hooks/mutations";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@ui/toast";
 import { useAuthContext } from "@/hooks";
+import Image from "next/image";
+import logoImg from '@/../public/logonolabel.png'
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Por favor, insira um email válido." }),
@@ -55,7 +57,7 @@ export default function Login() {
       action: <ToastAction altText="Tentar again">Try again</ToastAction>,
     })
     // router.push('/dale')
-    // router.navigate('')
+    router.navigate('/bookings/new')
   }
 
 
@@ -73,8 +75,14 @@ export default function Login() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow">
-        <h2 className="text-2xl font-bold text-center">Login</h2>
+      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow flex flex-col">
+        <Image
+          src={logoImg}
+          alt="GerminaSer logo"
+          width={300}
+          className="self-center"
+          height={300}
+        />
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -115,13 +123,11 @@ export default function Login() {
                 </FormItem>
               )}
             />
-
             {form.formState.errors.root && (
               <p className="text-red-500 text-sm">
                 {form.formState.errors.root.message}
               </p>
             )}
-
             <Button type="submit" className="w-full">
               Entrar
             </Button>
