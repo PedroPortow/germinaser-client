@@ -8,7 +8,7 @@ type UseGetRoomsOptions = Omit<
 >;
 
 export default function useGetRooms(
-  clinicId?: number,
+  clinicId?: string,
   options?: UseGetRoomsOptions
 ) {
   return useQuery<Room[], Error>({

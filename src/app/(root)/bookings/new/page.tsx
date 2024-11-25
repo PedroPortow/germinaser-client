@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Input } from "@ui/input";
 import { Button } from "@ui/button";
 import {
@@ -29,20 +28,16 @@ const FormSchema = z.object({
 });
 
 export default function Page() {
-  const router = useRouter();
-
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: "pedrolportow@gmail.com",
-      clinic_id: "",
-      room_id: "",
-      date: null,
+      clinic_id: '', 
+      room_id: '',  
+      date: new Date(),
       timeslot: "",
     },
   });
-
-  const { watch } = form
 
   const availableTimeSlots = [
     "08:00",
@@ -59,7 +54,6 @@ export default function Page() {
     "21:00",
   ];
 
-  
   const selectedClinicId = form.watch("clinic_id");
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -83,12 +77,12 @@ export default function Page() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nome da Reserva</FormLabel>
+                  <FormLabel>Email</FormLabel> {/* Updated Label */}
                   <FormControl>
                     <Input type="email" {...field} />
                   </FormControl>
                   <FormMessage />
-                  <FormDescription>Exemplo: Paciente João</FormDescription>
+                  <FormDescription>Exemplo: pedrolportow@gmail.com</FormDescription> {/* Updated Description */}
                 </FormItem>
               )}
             />
@@ -111,7 +105,7 @@ export default function Page() {
                   <FormLabel>Sala</FormLabel>
                   <RoomSelect
                     value={field.value}
-                    clinicId={Number(selectedClinicId)}
+                    clinicId={selectedClinicId}
                     onValueChange={field.onChange}
                   />
                   <FormMessage />
@@ -124,7 +118,7 @@ export default function Page() {
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Data</FormLabel>
-                  <DatePicker selected={field.value} onChange={field.onChange} />
+                  <DatePicker value={field.value} onValueChange={field.onChange} />
                   <FormMessage />
                 </FormItem>
               )}
@@ -136,12 +130,13 @@ export default function Page() {
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Horários Disponíveis</FormLabel>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {availableTimeSlots.map((time) => (
                       <Button
                         key={time}
-                        className="w-[31.9%]"
+                        className="w-full" // Make buttons take full width of grid cell
                         variant={field.value === time ? "default" : "outline"}
+                        type="button" 
                         onClick={() => field.onChange(time)}
                       >
                         {time}

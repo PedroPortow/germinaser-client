@@ -13,7 +13,7 @@ import {
 interface RoomSelectProps {
   value?: string;
   onValueChange: (value: string) => void;
-  clinicId: number;
+  clinicId: string;
 }
 
 const RoomSelect: React.FC<RoomSelectProps> = ({ value, onValueChange, clinicId }) => {
@@ -29,7 +29,7 @@ const RoomSelect: React.FC<RoomSelectProps> = ({ value, onValueChange, clinicId 
       </SelectTrigger>
       <SelectContent>
         {rooms?.map((room: Room) => (
-          <SelectItem key={room.id} value={room.id}>
+          <SelectItem key={room.id} value={room.id.toString()}>
             {room.name}
           </SelectItem>
         ))}

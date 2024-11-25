@@ -45,7 +45,11 @@ export default function Login() {
   function onSuccess(data: any) {
     const { authorization } = data.headers
 
-    if (authorization) localStorage.setItem(JWT_LOCAL_STORAGE_KEY, authorization)
+    if (authorization) {
+      localStorage.setItem(JWT_LOCAL_STORAGE_KEY, authorization)
+      router.push('/bookings/new')
+    }
+   
   }
   function onError(data: z.infer<typeof FormSchema>) {
     console.log({data})
@@ -57,7 +61,6 @@ export default function Login() {
       action: <ToastAction altText="Tentar again">Try again</ToastAction>,
     })
     // router.push('/dale')
-    router.navigate('/bookings/new')
   }
 
 
@@ -71,6 +74,7 @@ export default function Login() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     postLogin(data);
+    
   }
 
   return (

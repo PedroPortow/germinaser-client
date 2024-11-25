@@ -19,8 +19,6 @@ interface ClinicSelectProps {
 const ClinicSelect: React.FC<ClinicSelectProps> = ({ value, onValueChange }) => {
   const { data: clinics } = useGetClinics();
 
-  console.log({value})
-  
   return (
     <Select value={value} onValueChange={onValueChange}>
       <SelectTrigger className="w-[180px]">
@@ -28,7 +26,7 @@ const ClinicSelect: React.FC<ClinicSelectProps> = ({ value, onValueChange }) => 
       </SelectTrigger>
       <SelectContent>
         {clinics?.map((clinic: Clinic) => (
-          <SelectItem key={clinic.id} value={clinic.id}>
+          <SelectItem key={clinic.id} value={clinic.id.toString()}>
             {clinic.name}
           </SelectItem>
         ))}

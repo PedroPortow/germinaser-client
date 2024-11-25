@@ -12,7 +12,7 @@ export const apiGetClinics = async (): Promise<Clinic[]> => {
   }
 };
 
-export const apiGetClinicRooms = async (clinicId: number | undefined): Promise<Room[]> => {
+export const apiGetClinicRooms = async (clinicId: string | undefined): Promise<Room[]> => {
   try {
     const response = await api.get<Room[]>(`/clinics/${clinicId}/rooms`);
     return response.data;
