@@ -22,8 +22,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@ui/alert-dialog"
-
+} from "@ui/alert-dialog";
 
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -32,9 +31,10 @@ import { ClinicSelect, DatePicker, RoomSelect } from "@/components";
 import { Separator } from "@/components/ui/separator";
 import { useGetDayAvailableTimeslots } from "@/hooks";
 import { Skeleton } from "@/components/ui/skeleton";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion"; // Import Framer Motion
 
 const FormSchema = z.object({
-  email: z.string().email({ message: "Por favor, insira um email válido." }),
+  name: z.string().min(1, { message: "Por favor, insira um name válido." }),
   clinic_id: z.string().min(1, { message: "Por favor, selecione uma clínica." }),
   room_id: z.string().min(1, { message: "Por favor, selecione uma sala." }),
   date: z.date({
@@ -47,9 +47,9 @@ export default function Page() {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: "pedrolportow@gmail.com",
-      clinic_id: '', 
-      room_id: '',  
+      name: "",
+      clinic_id: "",
+      room_id: "",
       date: new Date(),
       timeslot: "",
     },
@@ -59,7 +59,7 @@ export default function Page() {
   const selectedRoomId = form.watch("room_id");
   const selectedDate = form.watch("date");
 
-  const { data: availableTimeSlots = [], isLoading: isLoadingAvaibleTimeslots } = useGetDayAvailableTimeslots({
+  const { data: availableTimeSlots = [], isLoading: isLoadingAvailableTimeslots } = useGetDayAvailableTimeslots({
     params: {
       room_id: selectedRoomId,
       date: selectedDate,
@@ -69,19 +69,27 @@ export default function Page() {
     },
   });
 
-  console.log({ availableTimeSlots})
-
-
+  console.log({ availableTimeSlots });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    // Handle form submission
     console.log("Form data:", data);
-    // You can add your submission logic here
   }
 
+  const skeletonCount = 6;
+  const prefersReducedMotion = useReducedMotion(); 
+
   return (
-    <div className="h-full min-w-[75vw] flex items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-md bg-card p-8 rounded-lg shadow-md">
+    <div className="h-full min-w-[75vw] p-4 flex items-center justify-center bg-gray-50 px-4">
+      <motion.div
+        className="w-full max-w-md  bg-card p-8 rounded-lg shadow-md"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 1,
+          ease: "easeInOut",
+          ...(prefersReducedMotion && { duration: 0 }),
+        }}
+      >
         <h2 className="text-2xl font-semibold mb-6 text-center">Nova Reserva</h2>
         <Form {...form}>
           <form
@@ -91,15 +99,17 @@ export default function Page() {
           >
             <FormField
               control={form.control}
-              name="email"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel> {/* Updated Label */}
+                  <FormLabel>Nome da Reserva</FormLabel>
                   <FormControl>
-                    <Input type="email" {...field} />
+                    <Input type="text" {...field} />
                   </FormControl>
                   <FormMessage />
-                  <FormDescription>Exemplo: pedrolportow@gmail.com</FormDescription> {/* Updated Description */}
+                  <FormDescription>
+                    Exemplo: Paciente João
+                  </FormDescription>
                 </FormItem>
               )}
             />
@@ -109,7 +119,10 @@ export default function Page() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Clínica</FormLabel>
-                  <ClinicSelect value={field.value} onValueChange={field.onChange} />
+                  <ClinicSelect
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  />
                   <FormMessage />
                 </FormItem>
               )}
@@ -135,66 +148,81 @@ export default function Page() {
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Data</FormLabel>
-                  <DatePicker value={field.value} onValueChange={field.onChange} />
+                  <DatePicker
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  />
                   <FormMessage />
                 </FormItem>
               )}
             />
-            {Boolean(selectedClinicId && selectedRoomId) && (
-               <FormField
-               control={form.control}
-               name="timeslot"
-               render={({ field }) => (
-                 <FormItem className="flex flex-col">
-                   <FormLabel>Horários Disponíveis</FormLabel>
-                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                     {true 
-                       ? Array.from({ length: 6 }).map((_, index) => (
-                           <Skeleton 
-                             key={index} 
-                             className="h-10 w-full rounded-md" 
-                           />
-                         ))
-                       : availableTimeSlots.map((time) => (
-                         <Button
-                           key={time}
-                           className="w-full" 
-                           variant={field.value === time ? "default" : "outline"}
-                           type="button" 
-                           onClick={() => field.onChange(time)}
-                         >
-                           {time}
-                         </Button>
-                       ))
-                     }
-                   </div>
-                   <FormMessage />
-                 </FormItem>
-               )}
-             />
-            )}
+            <AnimatePresence>
+              {Boolean(selectedClinicId && selectedRoomId) && (
+                <FormField
+                  control={form.control}
+                  name="timeslot"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel>Horários Disponíveis</FormLabel>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                        {isLoadingAvailableTimeslots
+                          ? Array.from({ length: skeletonCount }).map(
+                              (_, index) => (
+                                <Skeleton
+                                  key={index}
+                                  className="h-10 w-full rounded-md"
+                                />
+                              )
+                            )
+                          : availableTimeSlots.map((time) => (
+                              <Button
+                                key={time}
+                                className="w-full"
+                                variant={
+                                  field.value === time ? "default" : "outline"
+                                }
+                                type="button"
+                                onClick={() => field.onChange(time)}
+                              >
+                                {time}
+                              </Button>
+                            ))}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+            </AnimatePresence>
+
             <AlertDialog>
               <AlertDialogTrigger className="w-full">
-                <Button type='button' className="w-full mt-4">
+                <Button type="button" className="w-full mt-4">
                   Reservar
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Confirme as informações</AlertDialogTitle>
+                  <AlertDialogTitle>
+                    Confirme as informações
+                  </AlertDialogTitle>
                   <AlertDialogDescription>
-                    Esta ação vai consumir um crédito, em caso de cancelamento você tem até o dia anterior para ter seu crédito retornado
+                    Esta ação vai consumir um crédito, em caso de cancelamento
+                    você tem até o dia anterior para ter seu crédito
+                    retornado
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                  <AlertDialogAction type="submit">Confirmar Reserva</AlertDialogAction>
+                  <AlertDialogAction type="submit">
+                    Confirmar Reserva
+                  </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
           </form>
         </Form>
-      </div>
+      </motion.div>
     </div>
   );
 }
