@@ -1,48 +1,67 @@
 "use client";
 
-"use client";
+import { Header, IconCard } from "@/components";
+import {   
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle 
+} from "@ui/card";
+import { useGetBookings } from "@/hooks";
+import { BookingStatus } from "@/types/booking";
+import { User } from "lucide-react";
 
-import * as React from "react";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
 
-import { cn } from "@/lib/utils";
-import { Button } from "@ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
-interface DatePickerProps {
-  value?: Date;
-  onValueChange: (value: Date | undefined) => void;
-}
 
-const DatePicker: React.FC<DatePickerProps> = ({ value, onValueChange }) => (
-  <Popover>
-    <PopoverTrigger asChild>
-      <Button
-        variant={"outline"}
-        className={cn(
-          "justify-start text-left font-normal",
-          !value && "text-muted-foreground"
-        )}
+export default function Page() {
+  const { data } = useGetBookings({
+    params: {
+      page: 1,
+      per_page: 200,
+      status: BookingStatus.SCHEDULED
+    },
+  })
+
+  console.log({data})
+
+  return (
+    <div className="h-full ">
+      <Header
+        title={'Minhas Reservas'}
       >
-        <CalendarIcon className="mr-2 h-4 w-4" />
-        {value ? format(value, "PPP") : <span>Pick a date</span>}
-      </Button>
-    </PopoverTrigger>
-    <PopoverContent className="w-auto p-0">
-      <Calendar
-        mode="single"
-        selected={value}
-        onSelect={onValueChange}
-        initialFocus
-      />
-    </PopoverContent>
-  </Popover>
-);
 
-export default DatePicker;
+      </Header>
+      <div className="min-w-[75vw] h-full p-4 flex justify-center bg-gray-50 px-4">
+        <div className="flex gap-2">
+          {/* <IconCard 
+            icon={<User size={24} color="#ffffff" />}
+            title='Reservas Agendadas'
+            value={2}
+          />
+          <IconCard 
+            icon={<User size={24} color="#ffffff" />}
+            title='Reservas Agendadas'
+            value={2}
+          /> */}
+        </div>
+      {/* <Card
+        className="w-full max-w-md"
+      >
+        <CardHeader>
+          <CardTitle>Card Title</CardTitle>
+          <CardDescription>Card Description</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p>Card Content</p>
+        </CardContent>
+        <CardFooter>
+          <p>Card Footer</p>
+          </CardFooter> 
+      </Card> */}
+      </div>
+    </div>
+  );
+}

@@ -1,6 +1,7 @@
 import {
   Sidebar ,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -15,6 +16,7 @@ import logoImg from '@/../public/germina.png'
 import { SidebarItem } from "@/types/sidebar"
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/hooks";
 
 interface SidebarProps {
   items: SidebarItem[];
@@ -22,10 +24,14 @@ interface SidebarProps {
 
 export default function AppSidebar({ items }: SidebarProps) {
   const router = useRouter();
+  const { user } = useAuthContext()
 
+  console.log({user})
 
   return (
-    <Sidebar>
+    <Sidebar
+      className="drop-shadow-lg"
+    >
       <SidebarHeader>
         <Image
           src={logoImg}
@@ -34,7 +40,6 @@ export default function AppSidebar({ items }: SidebarProps) {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          {/* <SidebarGroupLabel>Application</SidebarGroupLabel> */}
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -47,23 +52,24 @@ export default function AppSidebar({ items }: SidebarProps) {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <Button
-                      onClick={() => router.push('/bookings/new')}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                <Button
+                 onClick={() => router.push('/bookings/new')}
                     >+ Fazer Reserva</Button>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            {user?.name}
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   )
 }

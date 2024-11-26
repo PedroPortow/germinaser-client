@@ -5,12 +5,7 @@ import { Sidebar } from "@/components";
  
 const SIDEBAR_ITEMS = [
   {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Reservas",
+    title: "Minhas Reservas",
     url: "#",
     icon: Inbox,
   },

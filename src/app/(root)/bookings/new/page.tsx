@@ -31,7 +31,7 @@ import { ClinicSelect, DatePicker, RoomSelect } from "@/components";
 import { Separator } from "@/components/ui/separator";
 import { useGetDayAvailableTimeslots } from "@/hooks";
 import { Skeleton } from "@/components/ui/skeleton";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion"; // Import Framer Motion
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion"; 
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Por favor, insira um name válido." }),
