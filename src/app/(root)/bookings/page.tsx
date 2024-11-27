@@ -1,67 +1,49 @@
 "use client";
 
-import { Header, IconCard } from "@/components";
-import {   
+import { BookingsList, Header, IconCard } from "@/components";
+import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle 
+  CardTitle
 } from "@ui/card";
 import { useGetBookings } from "@/hooks";
-import { BookingStatus } from "@/types/booking";
-import { User } from "lucide-react";
+import { BOOKING_STATUS } from "@/types/booking";
+import { Plus, PlusCircleIcon, User } from "lucide-react";
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@ui/tabs"
 
-
+import { Button } from "@/components/ui/button";
 
 export default function Page() {
-  const { data } = useGetBookings({
-    params: {
-      page: 1,
-      per_page: 200,
-      status: BookingStatus.SCHEDULED
-    },
-  })
 
-  console.log({data})
 
   return (
-    <div className="h-full ">
-      <Header
-        title={'Minhas Reservas'}
-      >
-
-      </Header>
-      <div className="min-w-[75vw] h-full p-4 flex justify-center bg-gray-50 px-4">
-        <div className="flex gap-2">
-          {/* <IconCard 
-            icon={<User size={24} color="#ffffff" />}
-            title='Reservas Agendadas'
-            value={2}
-          />
-          <IconCard 
-            icon={<User size={24} color="#ffffff" />}
-            title='Reservas Agendadas'
-            value={2}
-          /> */}
+    <div className="h-full p-2 md:p-4 flex flex flex-col">
+      <div className="flex items-center justify-between">
+        <div className="flex flex-col  gap-2 mt-8">
+          <h1 className="font-semibold text-lg">Suas Reservas</h1>
+          <h1 className="font-semibold text-lg">Suas Reservas</h1>
         </div>
-      {/* <Card
-        className="w-full max-w-md"
-      >
-        <CardHeader>
-          <CardTitle>Card Title</CardTitle>
-          <CardDescription>Card Description</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>Card Content</p>
-        </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
-          </CardFooter> 
-      </Card> */}
+        <Button
+          className="text-sm"
+        >
+          <Plus size={60}/>
+          Fazer Reserva
+        </Button>
+      </div>
+      <div className="mt-8">
+        <BookingsList />
       </div>
     </div>
   );
 }
+
+
+// return (
+//   <div className="h-full p-4 flex items-center justify-center ">
+//     <BookingsList />
+//   </div>
+// );

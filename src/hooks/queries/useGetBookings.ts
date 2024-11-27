@@ -1,7 +1,7 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { apiGetBookings } from "@/services/booking";
 import { Timeslot } from "@/types/timeslot";
-import { Booking, BookingStatus } from "@/types/booking";
+import { BOOKING_STATUS, GetBookingsResponse } from "@/types/booking";
 
 type UseGetBookings = Omit<
 UseQueryOptions<Timeslot[], Error>,
@@ -10,8 +10,8 @@ UseQueryOptions<Timeslot[], Error>,
 
 export type Params = {
   page: number;
-  per_page: number; 
-  status: BookingStatus;
+  per_page: number;
+  status: BOOKING_STATUS;
 };
 
 interface useGetBookingsProps {
@@ -23,7 +23,7 @@ export default function useGetBookings({
   params,
   ...options
 }: useGetBookingsProps) {
-  return useQuery<Booking[], Error>({
+  return useQuery<GetBookingsResponse, Error>({
     queryKey: ["getBookings", params],
     queryFn: () => apiGetBookings(params),
     ...options,

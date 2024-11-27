@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import api from "./api";
 import { Params } from "@/hooks/queries/useGetDayAvailableTimeslots";
-import { Booking } from "@/types/booking";
+import { GetBookingsResponse } from "@/types/booking";
 import { Timeslot } from "@/types/timeslot";
 
 interface AvailableSlotsResponse {
@@ -11,7 +11,7 @@ interface AvailableSlotsResponse {
 export const apiGetDayAvailableTimeslots = async (params: Params | undefined): Promise<Timeslot[]> => {
   try {
     const response = await api.get<AvailableSlotsResponse>('/bookings/day_available_slots', { params });
-    
+
     return response.data.available_slots;
   } catch (error) {
     console.error( error);
@@ -20,15 +20,12 @@ export const apiGetDayAvailableTimeslots = async (params: Params | undefined): P
 };
 
 
-interface GetBookingsResponse {
-  bookings: Booking[];
-}
 
-export const apiGetBookings = async (params: any): Promise<Booking[]> => {
+export const apiGetBookings = async (params: any): Promise<GetBookingsResponse> => {
   try {
     const response = await api.get<GetBookingsResponse>('/bookings', { params });
-    
-    return response.data.bookings;
+
+    return response.data;
   } catch (error) {
     console.error( error);
     throw error;
