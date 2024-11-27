@@ -1,9 +1,8 @@
 "use client";
 
-import { Booking, BOOKING_STATUS } from "@/types/booking";
-import { Card, CardContent, CardDescription, CardTitle } from "../ui/card";
+import { Booking } from "@/types/booking";
+import { Card } from "../ui/card";
 import { formatDate, getWeekDay } from "@/helpers/date";
-import { Button } from "../ui/button";
 
 interface BookingCardProps {
   booking: Booking;
@@ -14,7 +13,7 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
   console.log(booking)
 
   return (
-    <Card className=" w-full px-4 py-2">
+    <Card className="w-full px-4 py-2 cursor-pointer hover:bg-gray-50 shadow-none transition duration-100">
       <div className="w-full h-full flex items-center justify-between">
         <div className="flex">
           <div className="flex flex-col gap-2">
@@ -23,13 +22,12 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <p className="font-medium text-end text-muted-foreground text-sm">{getWeekDay(booking.day_of_week)},  {formatDate(booking.date)}</p>
+          <p className="font-medium text-end text-muted-foreground text-sm">{getWeekDay(booking.date)},  {formatDate(booking.date)}</p>
           <p className="text-end text-muted-foreground text-sm">{booking.room_name}</p>
         </div>
       </div>
     </Card>
   );
 }
-
 
 export default BookingCard;

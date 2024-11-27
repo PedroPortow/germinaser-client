@@ -1,20 +1,20 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { useState } from "react";
 import { useGetBookings } from "@/hooks";
-import { Booking, BOOKING_STATUS } from "@/types/booking";
+import { Booking, BOOKING_STATUS, GetBookingsResponse } from "@/types/booking";
 import BookingCard from "../BookingCard";
 import { Button } from "../ui/button";
-import { MoveLeft, MoveRight } from "lucide-react";
-
-// interface BookingsListProps {}
+import { ChevronLeft, ChevronRight, MoveLeft, MoveRight } from "lucide-react";
+import { Skeleton } from "../ui/skeleton";
 
 // const BookingsList: React.FC<BookingsListProps> = () => {
-const BookingsList: React.FC<> = () => {
+const BookingsList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = 6;
 
-  const { data } = useGetBookings({
+  const { data = {} as GetBookingsResponse, isLoading, isError } = useGetBookings({
     params: {
       page: currentPage,
       per_page: perPage,
@@ -22,37 +22,59 @@ const BookingsList: React.FC<> = () => {
     },
   });
 
-  const { bookings = [], totalPages = 1 } = data || {};
+  const { bookings = [], meta } = data
 
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, meta?.total_pages));
   };
 
+  console.log({data})
+
   return (
-    <div className="flex flex-col gap-2 w-full">
-      {bookings.map((booking): Booking => (
-        <BookingCard key={booking.id} booking={booking} />
-      ))}
-      <div className="flex gap-2 self-center">
+    <div className="w-full">
+      <div className="flex flex-col gap-3 h-[490px]">
+        {isLoading
+          ? <ListLoader rows={perPage} />
+          : bookings.map((booking) => (
+            <BookingCard key={booking.id} booking={booking} />
+          ))
+      }
+      </div>
+      <div className="flex w-full justify-center gap-2 mt-4 self-center items-center">
         <Button
           variant="outline"
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
         >
-          <MoveLeft />
+          <ChevronLeft />
         </Button>
+        <p>{meta?.current_page} de {meta?.total_pages}</p>
         <Button
           variant="outline"
           onClick={handleNextPage}
-          disabled={currentPage === totalPages}
+          disabled={meta?.current_page === meta?.total_pages}
         >
-          <MoveRight />
+          <ChevronRight />
         </Button>
       </div>
+    </div>
+  );
+};
+
+interface ListLoaderProps {
+  rows: number;
+}
+
+const ListLoader: React.FC<ListLoaderProps> = ({ rows }) => {
+  return (
+    <div className="flex flex-col gap-3">
+      {Array.from({ length: rows }, (_, index) => (
+        <Skeleton key={index} className="w-full h-[70px]" />
+      ))}
     </div>
   );
 };

@@ -2,10 +2,10 @@
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
 import { SidebarProvider, SidebarTrigger } from "@ui/sidebar"
 import { Sidebar } from "@/components";
- 
+
 const SIDEBAR_ITEMS = [
   {
-    title: "Minhas Reservas",
+    title: "Reservas",
     url: "#",
     icon: Inbox,
   },
@@ -15,7 +15,7 @@ const SIDEBAR_ITEMS = [
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <Sidebar 
+      <Sidebar
         items={SIDEBAR_ITEMS}
       />
       <SidebarTrigger />

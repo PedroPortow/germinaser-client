@@ -4,12 +4,10 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
 } from "@ui/sidebar"
 import Image from "next/image"
 import logoImg from '@/../public/germina.png'
@@ -30,7 +28,7 @@ export default function AppSidebar({ items }: SidebarProps) {
 
   return (
     <Sidebar
-      className="drop-shadow-lg"
+      // className="drop-shadow-lg"
     >
       <SidebarHeader>
         <Image
