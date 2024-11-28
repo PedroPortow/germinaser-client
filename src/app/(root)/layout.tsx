@@ -1,7 +1,8 @@
 "use client";
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
 import { SidebarProvider, SidebarTrigger } from "@ui/sidebar"
-import { Sidebar } from "@/components";
+import { Header, Sidebar } from "@/components";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const SIDEBAR_ITEMS = [
   {
@@ -13,30 +14,21 @@ const SIDEBAR_ITEMS = [
 
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const isMobile = useIsMobile()
+
   return (
     <SidebarProvider>
       <Sidebar
         items={SIDEBAR_ITEMS}
       />
-      <SidebarTrigger />
       <main
         className="overflow-hidden w-full"
       >
+        <Header>
+          {isMobile && <SidebarTrigger />}
+        </Header>
         {children}
       </main>
     </SidebarProvider>
   );
 }
-
-
-// return (
-//   <div className="flex h-screen overflow-hidden">
-//     <Sidebar
-
-//     />
-//     <div className="flex-1 flex flex-col w-full">
-//       {children}
-//     </div>
-//   </div>
-
-// );

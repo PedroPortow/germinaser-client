@@ -28,6 +28,7 @@ export default function AppSidebar({ items }: SidebarProps) {
 
   return (
     <Sidebar
+    className="p-"
       // className="drop-shadow-lg"
     >
       <SidebarHeader>
@@ -54,7 +55,9 @@ export default function AppSidebar({ items }: SidebarProps) {
                 <SidebarMenuButton asChild>
                 <Button
                  onClick={() => router.push('/bookings/new')}
-                    >+ Fazer Reserva</Button>
+                >
+                  + Fazer Reserva
+                </Button>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
