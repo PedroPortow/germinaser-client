@@ -3,7 +3,7 @@ import { Meta } from "./api";
 export enum BOOKING_STATUS {
   SCHEDULED = 'scheduled',
   COMPLETED = 'completed',
-  CANCELED = 'cancaled',
+  CANCELED = 'canceled',
 }
 
 export interface Booking {

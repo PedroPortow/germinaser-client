@@ -1,3 +1,5 @@
+import { Booking } from "@/types/booking";
+
 export function getWeekDay(dateString: string): string {
   const date = new Date(dateString);
 
@@ -26,4 +28,16 @@ export function formatDate(dateString: string): string {
 
   return `${day}/${month}/${year}`;
 }
+
+export const getBookingEndTime = (booking: Booking): string => {
+  const [hourStr, minuteStr] = booking.start_time.split(":");
+  const hour = parseInt(hourStr, 10);
+  const minute = parseInt(minuteStr, 10);
+
+  const endHour = (hour + 1) % 24;
+  const formattedHour = endHour.toString().padStart(2, "0");
+  const formattedMinute = minute.toString().padStart(2, "0");
+
+  return `${formattedHour}:${formattedMinute}`;
+};
 

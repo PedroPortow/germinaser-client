@@ -2,22 +2,13 @@
 "use client";
 
 import { BookingsList } from "@/components";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@ui/card";
 import { Plus } from "lucide-react";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@ui/tabs";
 import { Button } from "@/components/ui/button";
 
 export default function Page() {
   return (
-    <div className="h-full p-4 pt-8 md:p-4 flex flex-col">
+    <div className="h-full p-4 pt-2 md:p-4 flex flex-col">
       <div className="flex flex-col md:flex-row items-start md:items-end justify-between">
         <div className="flex flex-col">
           <h1 className="font-semibold text-lg">Reservas</h1>
