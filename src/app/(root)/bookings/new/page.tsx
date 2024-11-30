@@ -16,12 +16,13 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ClinicSelect, DatePicker, RoomSelect } from "@/components";
-import { useGetDayAvailableTimeslots } from "@/hooks";
+import { useCreateBooking, useGetDayAvailableTimeslots } from "@/hooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AnimatePresence } from "framer-motion"; 
 import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal";
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Por favor, insira um name válido." }),
@@ -45,6 +46,24 @@ export default function Page() {
     },
   });
 
+  const { toast } = useToast()
+
+  const { mutate: createBooking } = useCreateBooking({
+    onSuccess,
+    onError
+  })
+
+  function onSuccess() {
+    toast({
+      title: "Reservada : Catch up",
+      description: "Friday, February 10, 2023 at 5:57 PM",
+    })
+  }
+
+  function onError() {
+
+  }
+
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false)
 
   const selectedClinicId = form.watch("clinic_id");
@@ -59,7 +78,14 @@ export default function Page() {
     enabled: Boolean(selectedRoomId && selectedDate),
   });
 
-  async function handleSubmitConfirm() {
+  function handleSubmit(data: z.infer<typeof FormSchema>) {
+    setIsConfirmationModalOpen(false)
+
+    createBooking({
+      name: data.name,
+      room_id: data.room_id,
+      start_time: `${data.date}T${data.timeslot}:00Z`
+    })
   }
 
 
@@ -180,7 +206,7 @@ export default function Page() {
             open={isConfirmationModalOpen}
             onOpenChange={setIsConfirmationModalOpen}
             onCancel={() => setIsConfirmationModalOpen(false)}
-            onConfirm={handleSubmitConfirm}
+            onConfirm={form.handleSubmit(handleSubmit)}
             title="Confirme as Informações"
             description="Esta ação vai consumir um crédito"
             actionButtonText="Confirmar Reserva"

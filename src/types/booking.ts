@@ -24,3 +24,10 @@ export interface GetBookingsResponse {
   bookings: Booking[];
   meta: Meta;
 }
+
+export interface CreateBookingParams {
+  name: string;
+  room_id: string;
+  start_time: string; 
+};
+

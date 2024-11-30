@@ -17,7 +17,6 @@ import {
 } from "@ui/form";
 import { usePostLogin } from "@/hooks/mutations";
 import { useToast } from "@/hooks/use-toast";
-import { ToastAction } from "@ui/toast";
 import { useAuthContext } from "@/hooks";
 import Image from "next/image";
 import logoImg from '@/../public/logonolabel.png'
@@ -51,16 +50,12 @@ export default function Login() {
     }
    
   }
-  function onError(data: z.infer<typeof FormSchema>) {
-    console.log({data})
-
+  function onError() {
     toast({
       variant: "destructive",
-      title: "Ops! Senha inválida",
-      description: "Tasdasd.",
-      action: <ToastAction altText="Tentar again">Try again</ToastAction>,
+      title: "Ops! Email ou Senha inválida",
+      description: "Verifique novamente os dados inseridos.",
     })
-    // router.push('/dale')
   }
 
 
@@ -72,7 +67,7 @@ export default function Login() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  function onSubmit(data: z.infer<typeof FormSchema>) {
     postLogin(data);
     
   }

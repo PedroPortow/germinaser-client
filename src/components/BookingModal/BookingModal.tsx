@@ -43,7 +43,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ booking, open, onOpenChange
       <ConfirmationModal
         open={isCancelModalOpen}
         onOpenChange={setIsCancelModalOpen}
-        booking={booking}
         onCancel={toggleConfirmationModal} 
         title="Tem certeza?"
         description="Esta ação não pode ser desfeita. Reservas canceladas até o dia anterior tem seu crédito ressarcido automaticamente."

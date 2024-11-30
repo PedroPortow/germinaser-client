@@ -8,7 +8,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const SIDEBAR_ITEMS = [
   {
     title: "Reservas",
-    url: "#",
+    url: "/bookings",
     icon: Inbox,
   },
 ]

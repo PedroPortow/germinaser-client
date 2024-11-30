@@ -5,7 +5,6 @@ import { User } from '@/types/user';
 import { useGetCurrentUser } from '@/hooks';
 export interface AuthContextType {
   user: User | undefined;
-  isLoading: boolean;
   isAuthenticated: boolean;
   JWT_LOCAL_STORAGE_KEY: string;
 }
@@ -28,7 +27,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = !!user && !isLoading;
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, isAuthenticated, JWT_LOCAL_STORAGE_KEY }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, JWT_LOCAL_STORAGE_KEY }}>
       {children}
     </AuthContext.Provider>
   );

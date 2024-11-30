@@ -24,8 +24,12 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-      return Promise.reject(error)
+      localStorage.removeItem('userToken');
+
+      window.location.href = '/login';
     }
+
+    return Promise.reject(error);
   }
 )
 
