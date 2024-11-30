@@ -5,10 +5,11 @@ import { BookingsList } from "@/components";
 import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 export default function Page() {
   return (
-    <div className="h-full p-4 pt-2 md:p-4 flex flex-col">
+    <Card className="h-full w-full max-w-[800px] py-4 px-5 flex flex-col ">
       <div className="flex flex-col md:flex-row items-start md:items-end justify-between">
         <div className="flex flex-col">
           <h1 className="font-semibold text-lg">Reservas</h1>
@@ -22,6 +23,6 @@ export default function Page() {
       <div className="mt-4">
         <BookingsList />
       </div>
-    </div>
+    </Card>
   );
 }
