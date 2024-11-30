@@ -3,7 +3,6 @@
 "use client";
 
 import React from "react";
-import { Booking } from "@/types/booking";
 
 import {
   AlertDialog,
@@ -19,7 +18,6 @@ import { Button } from "../ui/button";
 import { ButtonVariant } from "@/types/ui";
 
 interface ConfirmationModalProps {
-  booking: Booking | null;
   actionButtonVariant?: ButtonVariant;
   actionButtonText?: string;
   cancelButtonText?: string;

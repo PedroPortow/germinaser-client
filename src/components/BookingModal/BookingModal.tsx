@@ -91,8 +91,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ booking, open, onOpenChange
             </div>
             {showCancelButton && (
               <Button
-                variant='destructive'
-                className="mt-2"
+                className="mt-2 bg-transparent border border-red-500 text-red-500 hover:bg-red-50 focus:ring-2 focus:ring-red-500"
                 onClick={toggleConfirmationModal}
               >
                 Cancelar Reserva

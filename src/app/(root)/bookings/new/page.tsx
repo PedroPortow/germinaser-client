@@ -12,26 +12,15 @@ import {
   FormMessage,
 } from "@ui/form";
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@ui/alert-dialog";
-
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ClinicSelect, DatePicker, RoomSelect } from "@/components";
-import { Separator } from "@/components/ui/separator";
 import { useGetDayAvailableTimeslots } from "@/hooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion"; 
+import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal";
+import { useState } from "react";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Por favor, insira um name válido." }),
@@ -55,6 +44,8 @@ export default function Page() {
     },
   });
 
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false)
+
   const selectedClinicId = form.watch("clinic_id");
   const selectedRoomId = form.watch("room_id");
   const selectedDate = form.watch("date");
@@ -64,15 +55,10 @@ export default function Page() {
       room_id: selectedRoomId,
       date: selectedDate,
     },
-    options: {
-      enabled: Boolean(selectedRoomId && selectedDate),
-    },
+    enabled: Boolean(selectedRoomId && selectedDate),
   });
 
-  console.log({ availableTimeSlots });
-
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log("Form data:", data);
+  async function handleSubmitConfirm() {
   }
 
   const skeletonCount = 6;
@@ -93,7 +79,7 @@ export default function Page() {
         <h2 className="text-2xl font-semibold mb-6 text-center">Nova Reserva</h2>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            // onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-4"
             noValidate
           >
@@ -194,8 +180,24 @@ export default function Page() {
                 />
               )}
             </AnimatePresence>
+            <Button 
+              type="button" 
+              className="w-full mt-4" 
+              onClick={() => setIsConfirmationModalOpen(true)}
+            >
+              Reservar
+            </Button>
+            <ConfirmationModal 
+              open={isConfirmationModalOpen}
+              onOpenChange={setIsConfirmationModalOpen}
+              onCancel={() => setIsConfirmationModalOpen(false)}
+              onConfirm={handleSubmitConfirm}
+              title="Confirme as Informações"
+              description="Esta ação vai consumir um crédito"
+              actionButtonText="Confirmar Reserva"
+            />
 
-            <AlertDialog>
+            {/* <AlertDialog>
               <AlertDialogTrigger className="w-full">
                 <Button type="button" className="w-full mt-4">
                   Reservar
@@ -219,7 +221,7 @@ export default function Page() {
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
-            </AlertDialog>
+            </AlertDialog> */}
           </form>
         </Form>
       </motion.div>

@@ -1,10 +1,12 @@
+// useGetDayAvailableTimeslots.ts
+
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { apiGetDayAvailableTimeslots } from "@/services/booking";
 import { Timeslot } from "@/types/timeslot";
 
 type UseGetDayAvailableTimeslotsOptions = Omit<
-UseQueryOptions<Timeslot[], Error>,
-"queryKey" | "queryFn"
+  UseQueryOptions<Timeslot[], Error>,
+  "queryKey" | "queryFn"
 >;
 
 export type Params = {
@@ -12,9 +14,8 @@ export type Params = {
   date: Date;
 };
 
-interface UseGetDayAvailableTimeslotsProps {
+interface UseGetDayAvailableTimeslotsProps extends UseGetDayAvailableTimeslotsOptions {
   params: Params;
-  options?: UseGetDayAvailableTimeslotsOptions;
 }
 
 export default function useGetDayAvailableTimeslots({

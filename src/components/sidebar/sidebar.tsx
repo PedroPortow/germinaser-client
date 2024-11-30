@@ -4,13 +4,14 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@ui/sidebar"
 import Image from "next/image"
-import logoImg from '@/../public/germina.png'
+import logoImg from '@/../public/logonolabel.png'
 import { SidebarItem } from "@/types/sidebar"
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
@@ -28,17 +29,20 @@ export default function AppSidebar({ items }: SidebarProps) {
 
   return (
     <Sidebar
-    className="p-"
+      className="p-2"
       // className="drop-shadow-lg"
     >
-      <SidebarHeader>
+      <SidebarHeader className="w-full flex justify-between items-center pt-8">
         <Image
           src={logoImg}
           alt= "GerminaSer logo"
+          width={180}
+          height={180}
         />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
+        <SidebarGroupLabel>Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -55,8 +59,9 @@ export default function AppSidebar({ items }: SidebarProps) {
                 <SidebarMenuButton asChild>
                 <Button
                  onClick={() => router.push('/bookings/new')}
+                 variant='secondary'
                 >
-                  + Fazer Reserva
+                  + Nova Reserva
                 </Button>
                 </SidebarMenuButton>
               </SidebarMenuItem>
