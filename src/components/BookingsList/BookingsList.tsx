@@ -45,6 +45,7 @@ const BookingsList: React.FC = () => {
     <>
       <BookingModal 
         open={isBookingModalOpen}
+        onOpenChange={setIsBookingModalOpen}
         booking={selectedBooking}
       />
       <div className="w-full">
