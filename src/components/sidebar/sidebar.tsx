@@ -46,6 +46,7 @@ export default function AppSidebar({ items }: SidebarProps) {
           alt= "GerminaSer logo"
           width={180}
           height={180}
+          priority
         />
       </SidebarHeader>
       <SidebarContent>

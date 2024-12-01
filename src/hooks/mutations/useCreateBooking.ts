@@ -1,5 +1,5 @@
 import { apiPostBooking } from '@/services/booking';
-import { Booking, CreateBookingParams } from '@/types/booking';
+import { CreateBookingParams } from '@/types/booking';
 import { useMutation } from '@tanstack/react-query';
 
 

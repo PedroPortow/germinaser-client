@@ -81,6 +81,7 @@ export default function Login() {
           width={250}
           className="self-center"
           height={250}
+          priority
         />
         <Form {...form}>
           <form
