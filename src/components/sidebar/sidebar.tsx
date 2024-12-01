@@ -10,12 +10,21 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@ui/sidebar"
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 import Image from "next/image"
 import logoImg from '@/../public/logonolabel.png'
 import { SidebarItem } from "@/types/sidebar"
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/hooks";
+import { ChevronUp, Plus, User2 } from "lucide-react"
 
 interface SidebarProps {
   items: SidebarItem[];
@@ -30,7 +39,6 @@ export default function AppSidebar({ items }: SidebarProps) {
   return (
     <Sidebar
       className="p-2"
-      // className="drop-shadow-lg"
     >
       <SidebarHeader className="w-full flex justify-between items-center pt-8">
         <Image
@@ -61,7 +69,8 @@ export default function AppSidebar({ items }: SidebarProps) {
                  onClick={() => router.push('/bookings/new')}
                  variant='secondary'
                 >
-                  + Nova Reserva
+                <Plus />
+                 Nova Reserva
                 </Button>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -70,12 +79,27 @@ export default function AppSidebar({ items }: SidebarProps) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            {user?.name}
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton>
+                    <User2 /> {user?.name}
+                    <ChevronUp className="ml-auto" />
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  side="top"
+                  className="w-[--radix-popper-anchor-width]"
+                >
+                  <DropdownMenuItem>
+                    <span>Sign out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
     </Sidebar>
   )
 }

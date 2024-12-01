@@ -2,7 +2,8 @@
 
 import { Booking } from "@/types/booking";
 import { Card } from "../ui/card";
-import { formatDate, getWeekDay } from "@/helpers/datime";
+import { formatDate, getBookingEndTime, getWeekDay } from "@/helpers/datime";
+import BookingStatusBadge from "../BookingStatusBadge";
 
 interface BookingCardProps {
   booking: Booking;
@@ -32,7 +33,10 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking, onClick }) => {
       <div className="w-full h-full flex items-center justify-between">
         <div className="flex">
           <div className="flex flex-col gap-2">
-            <h3 className="font-semibold">{booking.name}</h3>
+            <div className="flex flex-col gap-2">
+              <h3 className="font-semibold">{booking.name}</h3>
+              <BookingStatusBadge booking={booking} />
+            </div>
             <h3 className="font-medium text-start text-muted-foreground text-sm">
               {booking.clinic_name}, {booking.room_name}
             </h3>
@@ -44,7 +48,7 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking, onClick }) => {
             {getWeekDay(booking.date)}, {formatDate(booking.date)}
           </p>
           <p className="text-end text-muted-foreground text-sm">
-            {booking.room_name}
+            {booking.start_time} - {getBookingEndTime(booking)}
           </p>
         </div>
       </div>

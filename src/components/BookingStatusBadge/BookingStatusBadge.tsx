@@ -12,7 +12,7 @@ interface BookingStatusBadgeProps {
 
 const BookingStatusBadge: React.FC<BookingStatusBadgeProps> = ({ booking }) => (
   <Badge variant={BOOKING_STATUS_VARIANT[booking.status]} className="w-fit">
-    {BOOKING_STATUS_LABEL[booking.status]}
+    {BOOKING_STATUS_LABEL[booking.status]}x
   </Badge>
 );
 

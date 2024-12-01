@@ -46,7 +46,7 @@ export default function Login() {
 
     if (authorization) {
       localStorage.setItem(JWT_LOCAL_STORAGE_KEY, authorization)
-      router.push('/bookings/new')
+      router.push('/bookings')
     }
    
   }
@@ -78,9 +78,9 @@ export default function Login() {
         <Image
           src={logoImg}
           alt="GerminaSer logo"
-          width={300}
+          width={250}
           className="self-center"
-          height={300}
+          height={250}
         />
         <Form {...form}>
           <form
