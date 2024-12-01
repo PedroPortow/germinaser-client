@@ -48,32 +48,30 @@ const BookingsList: React.FC = () => {
         onOpenChange={setIsBookingModalOpen}
         booking={selectedBooking}
       />
-      <div className="w-full">
-        <div className="flex flex-col gap-3 h-[490px]">
-          {isLoading
-            ? <ListLoader rows={perPage} />
-            : bookings.map((booking) => (
-              <BookingCard key={booking.id} booking={booking} onClick={handleOpenBookingModal} />
-            ))
-        }
-        </div>
-        <div className="flex w-full justify-center gap-2 mt-4 self-center items-center">
-          <Button
-            variant="outline"
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1}
-          >
-            <ChevronLeft />
-          </Button>
-          <p>{meta?.current_page} de {meta?.total_pages}</p>
-          <Button
-            variant="outline"
-            onClick={handleNextPage}
-            disabled={meta?.current_page === meta?.total_pages}
-          >
-            <ChevronRight />
-          </Button>
-        </div>
+      <div className="flex flex-col gap-3">
+        {isLoading
+          ? <ListLoader rows={perPage} />
+          : bookings.map((booking) => (
+            <BookingCard key={booking.id} booking={booking} onClick={handleOpenBookingModal} />
+          ))
+      }
+      </div>
+      <div className="flex w-full justify-center gap-2 mt-4 self-center items-center">
+        <Button
+          variant="outline"
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+        >
+          <ChevronLeft />
+        </Button>
+        <p>{meta?.current_page} de {meta?.total_pages}</p>
+        <Button
+          variant="outline"
+          onClick={handleNextPage}
+          disabled={meta?.current_page === meta?.total_pages}
+        >
+          <ChevronRight />
+        </Button>
       </div>
     </>
   );

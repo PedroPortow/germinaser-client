@@ -9,7 +9,8 @@ import { Card } from "@/components/ui/card";
 
 export default function Page() {
   return (
-    <Card className="h-full w-full max-w-[800px] py-4 px-5 flex flex-col ">
+    <div className="w-full max-w-[800px]">
+      <Card className=" w-full py-4 px-5 flex flex-col ">
       <div className="flex flex-col md:flex-row items-start md:items-end justify-between">
         <div className="flex flex-col">
           <h1 className="font-semibold text-lg">Reservas</h1>
@@ -24,5 +25,6 @@ export default function Page() {
         <BookingsList />
       </div>
     </Card>
+    </div>
   );
 }

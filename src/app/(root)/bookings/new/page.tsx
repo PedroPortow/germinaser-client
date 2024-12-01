@@ -15,14 +15,15 @@ import {
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ClinicSelect, DatePicker, RoomSelect } from "@/components";
-import { useCreateBooking, useGetDayAvailableTimeslots } from "@/hooks";
+import { ClinicSelect, DatePicker, InfoCard, RoomSelect } from "@/components";
+import { useAuthContext, useCreateBooking, useGetDayAvailableTimeslots } from "@/hooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AnimatePresence } from "framer-motion"; 
 import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal";
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { CalendarCheck2, Coins } from "lucide-react";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Por favor, insira um name válido." }),
@@ -52,6 +53,8 @@ export default function Page() {
     onSuccess,
     onError
   })
+
+  const { user } = useAuthContext()
 
   function onSuccess() {
     toast({
@@ -90,129 +93,143 @@ export default function Page() {
 
 
   return (
-    <Card className="w-full max-w-[500px] py-4 px-5">
-      <h2 className="text-2xl font-semibold mb-6 text-center">Nova Reserva</h2>
-      <Form {...form}>
-        <form
-          // onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4"
-          noValidate
-        >
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nome da Reserva</FormLabel>
-                <FormControl>
-                  <Input type="text" {...field} />
-                </FormControl>
-                <FormMessage />
-                <FormDescription>
-                  Exemplo: Paciente João
-                </FormDescription>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="clinic_id"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Clínica</FormLabel>
-                <ClinicSelect
-                  value={field.value}
-                  onValueChange={field.onChange}
+    <div className="w-full max-w-[500px] md:py-4 md:px-5">
+      <div className="flex gap-2 mb-4">
+        <InfoCard 
+          icon={<Coins />}
+          title='Créditos'
+          value={user?.credits}
+        />
+        <InfoCard 
+          title="Reservas atuais"
+          value={user?.active_bookings_count}
+          icon={<CalendarCheck2 />}
+        />
+      </div>
+      <Card className="w-full  py-4 px-5">
+          <h2 className="text-2xl font-semibold mb-6 text-center">Nova Reserva</h2>
+            <Form {...form}>
+              <form
+                // onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4"
+                noValidate
+              >
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nome da Reserva</FormLabel>
+                      <FormControl>
+                        <Input type="text" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                      <FormDescription>
+                        Exemplo: Paciente João
+                      </FormDescription>
+                    </FormItem>
+                  )}
                 />
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="room_id"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Sala</FormLabel>
-                <RoomSelect
-                  value={field.value}
-                  clinicId={selectedClinicId}
-                  onValueChange={field.onChange}
+                <FormField
+                  control={form.control}
+                  name="clinic_id"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Clínica</FormLabel>
+                      <ClinicSelect
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      />
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="date"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Data</FormLabel>
-                <DatePicker
-                  value={field.value}
-                  onValueChange={field.onChange}
+                <FormField
+                  control={form.control}
+                  name="room_id"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Sala</FormLabel>
+                      <RoomSelect
+                        value={field.value}
+                        clinicId={selectedClinicId}
+                        onValueChange={field.onChange}
+                      />
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <AnimatePresence>
-            {Boolean(selectedClinicId && selectedRoomId) && (
-              <FormField
-                control={form.control}
-                name="timeslot"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Horários Disponíveis</FormLabel>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                      {isLoadingAvailableTimeslots
-                        ? Array.from({ length: 6 }).map(
-                            (_, index) => (
-                              <Skeleton
-                                key={index}
-                                className="h-10 w-full rounded-md"
-                              />
-                            )
-                          )
-                        : availableTimeSlots.map((time) => (
-                            <Button
-                              key={time}
-                              className="w-full"
-                              variant={
-                                field.value === time ? "default" : "outline"
-                              }
-                              type="button"
-                              onClick={() => field.onChange(time)}
-                            >
-                              {time}
-                            </Button>
-                          ))}
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
-          </AnimatePresence>
-          <Button 
-            type="button" 
-            className="w-full mt-4" 
-            onClick={() => setIsConfirmationModalOpen(true)}
-          >
-            Reservar
-          </Button>
-          <ConfirmationModal 
-            open={isConfirmationModalOpen}
-            onOpenChange={setIsConfirmationModalOpen}
-            onCancel={() => setIsConfirmationModalOpen(false)}
-            onConfirm={form.handleSubmit(handleSubmit)}
-            title="Confirme as Informações"
-            description="Esta ação vai consumir um crédito"
-            actionButtonText="Confirmar Reserva"
-          />
-        </form>
-      </Form>
-    </Card>
+                <FormField
+                  control={form.control}
+                  name="date"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel>Data</FormLabel>
+                      <DatePicker
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <AnimatePresence>
+                  {Boolean(selectedClinicId && selectedRoomId) && (
+                    <FormField
+                      control={form.control}
+                      name="timeslot"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel>Horários Disponíveis</FormLabel>
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                            {isLoadingAvailableTimeslots
+                              ? Array.from({ length: 6 }).map(
+                                  (_, index) => (
+                                    <Skeleton
+                                      key={index}
+                                      className="h-10 w-full rounded-md"
+                                    />
+                                  )
+                                )
+                              : availableTimeSlots.map((time) => (
+                                  <Button
+                                    key={time}
+                                    className="w-full"
+                                    variant={
+                                      field.value === time ? "default" : "outline"
+                                    }
+                                    type="button"
+                                    onClick={() => field.onChange(time)}
+                                  >
+                                    {time}
+                                  </Button>
+                                ))}
+                          </div>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+                </AnimatePresence>
+                <Button 
+                  type="button" 
+                  className="w-full mt-4" 
+                  onClick={() => setIsConfirmationModalOpen(true)}
+                >
+                  Reservar
+                </Button>
+                <ConfirmationModal 
+                  open={isConfirmationModalOpen}
+                  onOpenChange={setIsConfirmationModalOpen}
+                  onCancel={() => setIsConfirmationModalOpen(false)}
+                  onConfirm={form.handleSubmit(handleSubmit)}
+                  title="Confirme as Informações"
+                  description="Esta ação vai consumir um crédito"
+                  actionButtonText="Confirmar Reserva"
+                />
+              </form>
+            </Form>
+          </Card>
+    </div>
   );
 }

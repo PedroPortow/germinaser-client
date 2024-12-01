@@ -4,7 +4,6 @@ import { SidebarProvider, SidebarTrigger } from "@ui/sidebar"
 import { Header, Sidebar } from "@/components";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-
 const SIDEBAR_ITEMS = [
   {
     title: "Reservas",
@@ -12,7 +11,6 @@ const SIDEBAR_ITEMS = [
     icon: Inbox,
   },
 ]
-
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const isMobile = useIsMobile()
@@ -30,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <SidebarTrigger />
           </Header>
         )}
-          <div className="h-full min-w-[75vw] p-4 flex items-center justify-center bg-gray-50 px-4">
+          <div className={`"h-full min-w-[75vw] min-h-[100vh] p-4 flex ${isMobile ? 'items-start' : 'items-center'} justify-center bg-gray-50 px-4"`}>
             {children}
           </div>
       </main>

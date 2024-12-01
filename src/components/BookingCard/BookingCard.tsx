@@ -4,6 +4,7 @@ import { Booking } from "@/types/booking";
 import { Card } from "../ui/card";
 import { formatDate, getBookingEndTime, getWeekDay } from "@/helpers/datime";
 import BookingStatusBadge from "../BookingStatusBadge";
+import { AlarmClock, CalendarFold, MapPinHouse } from "lucide-react";
 
 interface BookingCardProps {
   booking: Booking;
@@ -30,27 +31,32 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking, onClick }) => {
       tabIndex={0}
       onKeyDown={handleKeyDown}
     >
-      <div className="w-full h-full flex items-center justify-between">
-        <div className="flex">
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col gap-2">
-              <h3 className="font-semibold">{booking.name}</h3>
-              <BookingStatusBadge booking={booking} />
-            </div>
-            <h3 className="font-medium text-start text-muted-foreground text-sm">
-              {booking.clinic_name}, {booking.room_name}
-            </h3>
-          </div>
+      <div className="w-full h-full flex flex-col">
+        <div className="flex w-full justify-between">
+          <h3 className="font-semibold">{booking.name}</h3>
+          <BookingStatusBadge booking={booking} />
         </div>
-
-        <div className="flex flex-col gap-2">
-          <p className="font-medium text-end text-muted-foreground text-sm">
+        <div className="flex gap-1 items-center">
+          <MapPinHouse size={14} className="text-muted-foreground bold" />
+          <h3 className="font-medium text-start text-muted-foreground text-sm">
+            {booking.clinic_name}, {booking.room_name}
+          </h3>
+        </div>
+        <div className="flex gap-1 items-center">
+          <CalendarFold size={14} className="text-muted-foreground bold"/>
+          <h3 className="font-medium text-start text-muted-foreground text-sm">
             {getWeekDay(booking.date)}, {formatDate(booking.date)}
-          </p>
-          <p className="text-end text-muted-foreground text-sm">
-            {booking.start_time} - {getBookingEndTime(booking)}
-          </p>
+          </h3>
         </div>
+        <div className="flex gap-1 items-center">
+          {/* <CalendarFold /> */}
+          <AlarmClock size={14} className="text-muted-foreground bold" />
+          <h3 className="font-medium text-start text-muted-foreground text-sm">
+            {booking.start_time} - {getBookingEndTime(booking)}
+          </h3>
+        </div>
+        
+
       </div>
     </Card>
   );

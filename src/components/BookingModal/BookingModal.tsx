@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { formatDate, getBookingEndTime, getWeekDay } from "@/helpers/datime";
-import { Calendar, Clock, House } from "lucide-react";
+import { AlarmClock, CalendarFold, MapPinHouse } from "lucide-react";
 import BookingStatusBadge from "../BookingStatusBadge";
 import { Button } from "../ui/button";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
@@ -61,7 +61,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ booking, open, onOpenChange
           </DialogHeader>
           <div className="bg-red-30 flex mt-2 flex-col gap-5">
               <div className="flex gap-3 items-center">
-                <House />
+                <MapPinHouse size={26} className="bold" />
                 <div className="flex flex-col">
                   <p className="text-muted-foreground text-sm font-semibold text-start">Local</p>
                   <p className="font-medium text-md">
@@ -70,7 +70,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ booking, open, onOpenChange
                 </div>
               </div>
               <div className="flex gap-3 items-center">
-                <Calendar/>
+                <CalendarFold size={26} className=" bold" />
                 <div className="flex flex-col ">
                   <p className="text-muted-foreground text-sm font-semibold text-start">Data</p>
                   <p className="font-medium text-md">
@@ -79,7 +79,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ booking, open, onOpenChange
                 </div>
               </div>
               <div className="flex gap-3 items-center">
-                <Clock />
+                <AlarmClock size={26} className=" bold" />
                 <div className="flex flex-col ">
                   <p className="text-muted-foreground text-sm font-semibold text-start">Horário</p>
                   <p className="font-medium text-md">
