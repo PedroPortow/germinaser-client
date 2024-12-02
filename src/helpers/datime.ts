@@ -1,4 +1,6 @@
 import { Booking } from "@/types/booking";
+import { parse, format } from 'date-fns';
+import { formatInTimeZone, toZonedTime } from 'date-fns-tz';
 
 export function getWeekDay(dateString: string): string {
   const date = new Date(dateString);
@@ -13,7 +15,6 @@ export function getWeekDay(dateString: string): string {
     'Domingo',
   ];
 
-  // Correct the index to match JavaScript's `getDay()` method
   // JavaScript uses 0 for Sunday, 1 for Monday, ..., 6 for Saturday
   const adjustedIndex = (date.getDay() + 6) % 7;
 
@@ -23,8 +24,8 @@ export function getWeekDay(dateString: string): string {
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
   const day = date.getUTCDate().toString().padStart(2, '0');
-  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // getUTCMonth() returns a zero-based index
-  const year = date.getUTCFullYear().toString().substring(2); // Get the last two digits of the year
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); 
+  const year = date.getUTCFullYear().toString().substring(2); 
 
   return `${day}/${month}/${year}`;
 }
@@ -41,3 +42,13 @@ export const getBookingEndTime = (booking: Booking): string => {
   return `${formattedHour}:${formattedMinute}`;
 };
 
+// TODO: Fix this bullshit
+export function formatSubmitStartTime(startDate: Date, timeSlot: string) {
+  const timeZone = 'America/Sao_Paulo';
+  const dateStr = format(startDate, 'yyyy-MM-dd');
+  const dateTimeStr = `${dateStr} ${timeSlot}`;
+  const parsedDate = parse(dateTimeStr, 'yyyy-MM-dd HH:mm', new Date());
+  const zonedDate = toZonedTime(parsedDate, timeZone);
+  const formattedDateTime = formatInTimeZone(zonedDate, timeZone, "yyyy-MM-dd'T'HH:mm:ssXXX");
+  return formattedDateTime;
+}

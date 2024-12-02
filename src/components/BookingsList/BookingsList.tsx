@@ -21,7 +21,6 @@ const BookingsList: React.FC = () => {
     params: {
       page: currentPage,
       per_page: perPage,
-      status: BOOKING_STATUS.SCHEDULED,
     },
   });
 
@@ -39,7 +38,6 @@ const BookingsList: React.FC = () => {
     setIsBookingModalOpen(true)
     setSelectedBooking(booking)
   }
-  console.log({data})
 
   return (
     <>

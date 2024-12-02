@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/',
-  // baseURL: 'https://germina.onrender.com',
+  // baseURL: 'http://localhost:3000/',
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -25,9 +25,9 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-      // localStorage.removeItem('userToken');
+      localStorage.removeItem('userToken');
 
-      // window.location.href = '/login';
+      window.location.href = '/login';
     }
 
     return Promise.reject(error);

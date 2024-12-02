@@ -24,6 +24,7 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { CalendarCheck2, Coins } from "lucide-react";
+import { formatSubmitStartTime } from "@/helpers/datime";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Por favor, insira um name válido." }),
@@ -84,10 +85,12 @@ export default function Page() {
   function handleSubmit(data: z.infer<typeof FormSchema>) {
     setIsConfirmationModalOpen(false)
 
+    const startTime = formatSubmitStartTime(data.date, data.timeslot)
+    
     createBooking({
       name: data.name,
       room_id: data.room_id,
-      start_time: `${data.date}T${data.timeslot}:00Z`
+      start_time: startTime
     })
   }
 

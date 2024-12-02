@@ -11,7 +11,7 @@ UseQueryOptions<Timeslot[], Error>,
 export type Params = {
   page: number;
   per_page: number;
-  status: BOOKING_STATUS;
+  status?: BOOKING_STATUS;
 };
 
 interface useGetBookingsProps {
