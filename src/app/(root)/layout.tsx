@@ -3,7 +3,7 @@ import { Inbox } from "lucide-react"
 import { SidebarProvider, SidebarTrigger } from "@ui/sidebar"
 import { Header } from "@/components";
 import { useIsMobile } from "@/hooks/use-mobile";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/Sidebar/Sidebar";
 
 
 const SIDEBAR_ITEMS = [
