@@ -44,9 +44,6 @@ export default function Login() {
   function onSuccess(data: any) {
     const { authorization } = data.headers
 
-    console.log('chegou')
-
-    console.log({data})
     if (authorization) {
       localStorage.setItem(JWT_LOCAL_STORAGE_KEY, authorization)
       router.push('/bookings')

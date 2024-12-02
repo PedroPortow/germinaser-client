@@ -34,8 +34,6 @@ export default function AppSidebar({ items }: SidebarProps) {
   const router = useRouter();
   const { user } = useAuthContext()
 
-  console.log({user})
-
   return (
     <Sidebar
       className="p-2"
