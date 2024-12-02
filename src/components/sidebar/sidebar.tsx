@@ -1,5 +1,5 @@
 import {
-  Sidebar ,
+  Sidebar as UiSidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
@@ -30,12 +30,12 @@ interface SidebarProps {
   items: SidebarItem[];
 }
 
-export default function AppSidebar({ items }: SidebarProps) {
+export default function Sidebar({ items }: SidebarProps) {
   const router = useRouter();
   const { user } = useAuthContext()
 
   return (
-    <Sidebar
+    <UiSidebar
       className="p-2"
     >
       <SidebarHeader className="w-full flex justify-between items-center pt-8">
@@ -99,6 +99,6 @@ export default function AppSidebar({ items }: SidebarProps) {
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>
-    </Sidebar>
+    </UiSidebar>
   )
 }
