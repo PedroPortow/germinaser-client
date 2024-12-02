@@ -1,8 +1,10 @@
 "use client";
 import { Inbox } from "lucide-react"
 import { SidebarProvider, SidebarTrigger } from "@ui/sidebar"
-import { Header, Sidebar } from "@/components";
+import { Header } from "@/components";
 import { useIsMobile } from "@/hooks/use-mobile";
+import Sidebar from "@/components/Sidebar";
+
 
 const SIDEBAR_ITEMS = [
   {
