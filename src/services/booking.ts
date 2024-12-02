@@ -40,3 +40,15 @@ export const apiPostBooking = async (params: CreateBookingParams): Promise<Booki
     throw error;
   }
 };
+
+// TODO: Fix this bullshit 4
+export const apiCancelBooking = async (id: number): Promise<Booking[]> => {
+  try {
+    const response = await api.post(`/bookings/${id}/cancel`);
+
+    return response.data;
+  } catch (error) {
+    console.error( error);
+    throw error;
+  }
+};

@@ -36,16 +36,16 @@ export default function Login() {
     onError
   })
 
-  const { JWT_LOCAL_STORAGE_KEY } = useAuthContext()
+  const { handleSetToken } = useAuthContext()
 
   const { toast } = useToast()
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function onSuccess(data: any) {
-    const { authorization } = data.headers
+    const { authorization: token } = data.headers
 
-    if (authorization) {
-      localStorage.setItem(JWT_LOCAL_STORAGE_KEY, authorization)
+    if (token) {
+      handleSetToken(token)
       router.push('/bookings')
     }
    
@@ -62,8 +62,8 @@ export default function Login() {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: "pedrolportow@gmail.com",
-      password: "132456",
+      email: "",
+      password: "",
     },
   });
 

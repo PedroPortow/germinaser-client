@@ -25,6 +25,7 @@ import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { CalendarCheck2, Coins } from "lucide-react";
 import { formatSubmitStartTime } from "@/helpers/datime";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Por favor, insira um name válido." }),
@@ -37,6 +38,8 @@ const FormSchema = z.object({
 });
 
 export default function Page() {
+  const router = useRouter()
+  
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -59,11 +62,14 @@ export default function Page() {
 
   function onSuccess() {
     toast({
-      title: "Reservada : Catch up",
-      description: "Friday, February 10, 2023 at 5:57 PM",
+      title: "Reserva realizada com sucesso",
     })
+
+    router.push('/bookings')
   }
 
+
+  // TODO
   function onError() {
 
   }

@@ -34,7 +34,12 @@ interface SidebarProps {
 
 export default function Sidebar({ items }: SidebarProps) {
   const router = useRouter();
-  const { user } = useAuthContext()
+  const { user, JWT_LOCAL_STORAGE_KEY } = useAuthContext()
+
+  function handleLogout() {
+    localStorage.removeItem(JWT_LOCAL_STORAGE_KEY)
+    router.push('/login')
+  }
 
   return (
     <UiSidebar
@@ -93,8 +98,8 @@ export default function Sidebar({ items }: SidebarProps) {
                   side="top"
                   className="w-[--radix-popper-anchor-width]"
                 >
-                  <DropdownMenuItem>
-                    <span>Sign out</span>
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <span>Desconectar</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

@@ -14,6 +14,8 @@ import BookingStatusBadge from "../BookingStatusBadge";
 import { Button } from "../ui/button";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import { useState } from "react";
+import { useCancelBooking } from "@/hooks";
+import { useToast } from "@/hooks/use-toast";
 
 interface BookingModalProps {
   booking: Booking | null;
@@ -24,19 +26,32 @@ interface BookingModalProps {
 const BookingModal: React.FC<BookingModalProps> = ({ booking, open, onOpenChange }) => {
   const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false)
 
+  const { mutate: cancelBooking } = useCancelBooking({
+    onSuccess: onCancelBookingSuccess
+  })
+
+  const { toast } = useToast()
+
+  function onCancelBookingSuccess() {
+    toast({
+      variant: "default",
+      title: "Reservada cancelada com sucesso",
+    })
+
+    onOpenChange(prevState => !prevState)
+  }
+
   const toggleConfirmationModal = () => {
     setIsCancelModalOpen(prevState => !prevState)
   }
 
   const handleCancelBooking = () => {
-    // TODO: Cancel post
-    toggleConfirmationModal()
+    if (booking) cancelBooking(booking.id)
   }
-  
+
+  const showCancelButton = booking?.status === BOOKING_STATUS.SCHEDULED
 
   if (!booking) return null 
-
-  const showCancelButton = booking.status === BOOKING_STATUS.SCHEDULED
 
   return (
     <>
@@ -92,6 +107,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ booking, open, onOpenChange
               <Button
                 className="mt-2 bg-transparent border border-red-500 text-red-500 hover:bg-red-50 focus:ring-2 focus:ring-red-500"
                 onClick={toggleConfirmationModal}
+                type="button"
               >
                 Cancelar Reserva
               </Button>
