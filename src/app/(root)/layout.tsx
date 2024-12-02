@@ -1,9 +1,9 @@
 "use client";
 import { Inbox } from "lucide-react"
 import { SidebarProvider, SidebarTrigger } from "@ui/sidebar"
-import { Header } from "@/components";
+import { Header, AppSidebar } from "@/components";
 import { useIsMobile } from "@/hooks/use-mobile";
-import Sidebar from "@/components/Sidebar/Sidebar";
+
 
 
 const SIDEBAR_ITEMS = [
@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <SidebarProvider>
-      <Sidebar
+      <AppSidebar
         items={SIDEBAR_ITEMS}
       />
       <main
