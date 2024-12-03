@@ -23,7 +23,7 @@ export const apiGetDayAvailableTimeslots = async (params: Params | undefined): P
 
 export const apiGetBookings = async (params: any): Promise<GetBookingsResponse> => {
   try {
-    const response = await api.get<GetBookingsResponse>('/bookings/dadas', { params });
+    const response = await api.get<GetBookingsResponse>('/bookings', { params });
 
     return response.data;
   } catch (error) {
