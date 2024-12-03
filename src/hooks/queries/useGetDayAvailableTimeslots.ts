@@ -11,7 +11,7 @@ type UseGetDayAvailableTimeslotsOptions = Omit<
 
 export type Params = {
   room_id: string; 
-  date: Date;
+  date?: Date;
 };
 
 interface UseGetDayAvailableTimeslotsProps extends UseGetDayAvailableTimeslotsOptions {

@@ -20,7 +20,7 @@ import { useAuthContext, useCreateBooking, useGetDayAvailableTimeslots } from "@
 import { Skeleton } from "@/components/ui/skeleton";
 import { AnimatePresence } from "framer-motion"; 
 import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { CalendarCheck2, Coins } from "lucide-react";
@@ -39,6 +39,9 @@ const FormSchema = z.object({
 
 export default function Page() {
   const router = useRouter()
+
+  // TODO: Remove this bullshit i cant stop doing gambiarras
+  const [isClient, setIsClient] = useState(false);
   
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -74,6 +77,11 @@ export default function Page() {
 
   }
 
+  // TODO: Remove this bullshit i cant stop doing gambiarras
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false)
 
   const selectedClinicId = form.watch("clinic_id");
@@ -100,6 +108,9 @@ export default function Page() {
     })
   }
 
+  if (!isClient) {
+    return null; 
+  }
 
   return (
     <div className="w-full max-w-[500px] md:py-4 md:px-5">
