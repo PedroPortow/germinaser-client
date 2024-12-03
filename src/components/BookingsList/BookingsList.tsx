@@ -10,7 +10,6 @@ import { ChevronLeft, ChevronRight, MoveLeft, MoveRight } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 import BookingModal from "../BookingModal";
 
-// const BookingsList: React.FC<BookingsListProps> = () => {
 const BookingsList: React.FC = () => {
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null)
   const [isBookingModalOpen, setIsBookingModalOpen] = useState<boolean>(false)
