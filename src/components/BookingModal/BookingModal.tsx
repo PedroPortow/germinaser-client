@@ -67,7 +67,9 @@ const BookingModal: React.FC<BookingModalProps> = ({ booking, open, onOpenChange
         onOpenChange={onOpenChange}
         open={open}
       >
-        <DialogContent>
+        <DialogContent
+          aria-describedby={undefined}
+        >
           <DialogHeader>
             <DialogTitle className="mb-1 justify-between flex items-center text-start">
               {booking?.name} 
