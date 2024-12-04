@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
@@ -20,26 +20,29 @@ interface ListProps<T> {
   perPage?: number;
   data: T[];
   renderLoader?: (rows: number) => React.ReactNode;
+  onCardClick: (item: T) => void;
+  onPageChange: (page: number) => void
 }
 
-const INITIAL_PAGE =1
+const INITIAL_PAGE = 1
 
 const List = <T,>({ 
   cardComponent: CardComponent,
   meta,
   isLoading,
   perPage = 6,
-  data = []
+  data = [],
+  getKey,
+  onCardClick,
+  onPageChange,
 }: ListProps<T>) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  
 
   const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, INITIAL_PAGE));
+    if (meta)  onPageChange(Math.max(meta.current_page - 1, INITIAL_PAGE))
   };
 
   const handleNextPage = () => {
-    if (meta) setCurrentPage((prevPage) => Math.min(prevPage + 1, meta?.total_pages));
+    if (meta) onPageChange(Math.min(meta.current_page + 1, meta.total_pages));
   };
 
   return (
@@ -52,28 +55,30 @@ const List = <T,>({
                 key={getKey(item)}
                 item={item}
                 index={index} 
-                onClick={}
+                onClick={() => onCardClick(item)}
               />
             ))
-      }
+        }
       </div>
-      <div className="flex w-full justify-center gap-2 mt-4 self-center items-center">
-        <Button
-          variant="outline"
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-        >
-          <ChevronLeft />
-        </Button>
-        <p>{meta?.current_page} de {meta?.total_pages}</p>
-        <Button
-          variant="outline"
-          onClick={handleNextPage}
-          disabled={meta?.current_page === meta?.total_pages}
-        >
-          <ChevronRight />
-        </Button>
-      </div>
+      {meta && (
+        <div className="flex w-full justify-center gap-2 mt-4 self-center items-center">
+          <Button
+            variant="outline"
+            onClick={handlePreviousPage}
+            disabled={meta.current_page === 1}
+          >
+            <ChevronLeft />
+          </Button>
+          <p>{meta.current_page} de {meta.total_pages}</p>
+          <Button
+            variant="outline"
+            onClick={handleNextPage}
+            disabled={meta.current_page === meta.total_pages}
+          >
+            <ChevronRight />
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
