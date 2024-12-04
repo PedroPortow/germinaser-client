@@ -20,6 +20,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuthContext } from "@/hooks";
 import Image from "next/image";
 import logoImg from '@/../public/logonolabel.png'
+import { useEffect, useState } from "react";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Por favor, insira um email válido." }),
@@ -36,16 +37,19 @@ export default function Login() {
     onError
   })
 
-  const { JWT_LOCAL_STORAGE_KEY } = useAuthContext()
+  const { handleSetToken } = useAuthContext()
 
   const { toast } = useToast()
 
+   // TODO: Remove this bullshit i cant stop doing gambiarras
+   const [isClient, setIsClient] = useState(false);
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function onSuccess(data: any) {
-    const { authorization } = data.headers
+    const { authorization: token } = data.headers
 
-    if (authorization) {
-      localStorage.setItem(JWT_LOCAL_STORAGE_KEY, authorization)
+    if (token) {
+      handleSetToken(token)
       router.push('/bookings')
     }
    
@@ -62,14 +66,22 @@ export default function Login() {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: "pedrolportow@gmail.com",
-      password: "132456",
+      email: "",
+      password: "",
     },
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     postLogin(data);
     
+  }
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null; 
   }
 
   return (

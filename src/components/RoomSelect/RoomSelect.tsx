@@ -18,6 +18,7 @@ interface RoomSelectProps {
 
 const RoomSelect: React.FC<RoomSelectProps> = ({ value, onValueChange, clinicId }) => {
   const { data: rooms } = useGetRooms(clinicId);
+  
 
   return (
     <Select

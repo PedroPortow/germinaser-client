@@ -1,5 +1,7 @@
+"use client"
+
 import {
-  Sidebar ,
+  Sidebar as UiSidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
@@ -30,12 +32,17 @@ interface SidebarProps {
   items: SidebarItem[];
 }
 
-export default function AppSidebar({ items }: SidebarProps) {
+export default function Sidebar({ items }: SidebarProps) {
   const router = useRouter();
-  const { user } = useAuthContext()
+  const { user, JWT_LOCAL_STORAGE_KEY } = useAuthContext()
+
+  function handleLogout() {
+    localStorage.removeItem(JWT_LOCAL_STORAGE_KEY)
+    router.push('/login')
+  }
 
   return (
-    <Sidebar
+    <UiSidebar
       className="p-2"
     >
       <SidebarHeader className="w-full flex justify-between items-center pt-8">
@@ -91,14 +98,14 @@ export default function AppSidebar({ items }: SidebarProps) {
                   side="top"
                   className="w-[--radix-popper-anchor-width]"
                 >
-                  <DropdownMenuItem>
-                    <span>Sign out</span>
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <span>Desconectar</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>
-    </Sidebar>
+    </UiSidebar>
   )
 }

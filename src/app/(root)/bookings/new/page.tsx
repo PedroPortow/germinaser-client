@@ -20,11 +20,12 @@ import { useAuthContext, useCreateBooking, useGetDayAvailableTimeslots } from "@
 import { Skeleton } from "@/components/ui/skeleton";
 import { AnimatePresence } from "framer-motion"; 
 import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { CalendarCheck2, Coins } from "lucide-react";
 import { formatSubmitStartTime } from "@/helpers/datime";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Por favor, insira um name válido." }),
@@ -37,6 +38,11 @@ const FormSchema = z.object({
 });
 
 export default function Page() {
+  const router = useRouter()
+
+  // TODO: Remove this bullshit i cant stop doing gambiarras
+  const [isClient, setIsClient] = useState(false);
+  
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -59,14 +65,22 @@ export default function Page() {
 
   function onSuccess() {
     toast({
-      title: "Reservada : Catch up",
-      description: "Friday, February 10, 2023 at 5:57 PM",
+      title: "Reserva realizada com sucesso",
     })
+
+    router.push('/bookings')
   }
 
+
+  // TODO
   function onError() {
 
   }
+
+  // TODO: Remove this bullshit i cant stop doing gambiarras
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false)
 
@@ -94,6 +108,9 @@ export default function Page() {
     })
   }
 
+  if (!isClient) {
+    return null; 
+  }
 
   return (
     <div className="w-full max-w-[500px] md:py-4 md:px-5">

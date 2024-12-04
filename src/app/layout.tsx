@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR" translate="no">
       <body className={`${poppins.variable} antialiased`}>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>{children}</AuthProvider>
