@@ -27,6 +27,7 @@ import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/hooks";
 import { ChevronUp, Plus, User2 } from "lucide-react"
+import { Badge } from "../ui/badge"
 
 interface SidebarProps {
   items: SidebarItem[];
@@ -53,8 +54,15 @@ export default function Sidebar({ items }: SidebarProps) {
           height={180}
           priority
         />
+        <Badge 
+          className="self-start mt-4"
+          variant='outline'
+        >
+          Créditos: 9
+        </Badge>
       </SidebarHeader>
       <SidebarContent>
+
         <SidebarGroup>
         <SidebarGroupLabel>Menu</SidebarGroupLabel>
           <SidebarGroupContent>
