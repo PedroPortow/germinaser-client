@@ -1,3 +1,4 @@
+export type Role = 'owner' | 'admin' | 'user';
 export interface User {
   active_bookings_count: number;
   canceled_bookings_count: number;
@@ -7,6 +8,6 @@ export interface User {
   id: number;
   name: string;
   email: string;
-  role: string; // TODO: Add enum and role types
+  role: Role; 
   total_bookings_count: number;
 }

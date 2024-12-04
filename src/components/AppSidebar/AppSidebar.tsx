@@ -4,9 +4,6 @@ import {
   Sidebar as UiSidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -22,18 +19,29 @@ import {
 
 import Image from "next/image"
 import logoImg from '@/../public/logonolabel.png'
-import { SidebarItem } from "@/types/sidebar"
-import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/hooks";
-import { ChevronUp, Plus, User2 } from "lucide-react"
+import { ChevronUp, Inbox, User2 } from "lucide-react"
 import { Badge } from "../ui/badge"
+import { AdminSidebarGroup, UserSidebarGroup } from "./components"
 
-interface SidebarProps {
-  items: SidebarItem[];
-}
+const USER_SIDEBAR_ITEMS = [
+  {
+    title: "Reservas",
+    url: "/bookings",
+    icon: Inbox,
+  },
+]
 
-export default function Sidebar({ items }: SidebarProps) {
+const ADMIN_SIDEBAR_ITEMS = [
+  {
+    title: "Usuários",
+    url: "/admin/users",
+    icon: Inbox,
+  },
+]
+
+export default function Sidebar() {
   const router = useRouter();
   const { user, JWT_LOCAL_STORAGE_KEY } = useAuthContext()
 
@@ -62,35 +70,8 @@ export default function Sidebar({ items }: SidebarProps) {
         </Badge>
       </SidebarHeader>
       <SidebarContent>
-
-        <SidebarGroup>
-        <SidebarGroupLabel>Menu</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                <Button
-                 onClick={() => router.push('/bookings/new')}
-                 variant='secondary'
-                >
-                <Plus />
-                 Nova Reserva
-                </Button>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        <UserSidebarGroup items={USER_SIDEBAR_ITEMS} />
+        <AdminSidebarGroup items={ADMIN_SIDEBAR_ITEMS} />
       </SidebarContent>
       <SidebarFooter>
           <SidebarMenu>
