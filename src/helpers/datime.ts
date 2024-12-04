@@ -15,10 +15,7 @@ export function getWeekDay(dateString: string): string {
     'Domingo',
   ];
 
-  // JavaScript uses 0 for Sunday, 1 for Monday, ..., 6 for Saturday
-  const adjustedIndex = (date.getDay() + 6) % 7;
-
-  return weekDays[adjustedIndex];
+  return weekDays[date.getDay()]
 }
 
 export function formatDate(dateString: string): string {
