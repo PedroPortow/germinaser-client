@@ -1,11 +1,10 @@
 "use client";
 
 import { Plus } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
-import UsersList from "@/components/List";
+import { UsersList } from "@/components";
 
 export default function Page() {
   const router = useRouter()

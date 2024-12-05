@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 import { Meta } from "@/types/api";
 
-interface CardComponentProps<T> {
+export interface CardComponentProps<T> {
   item: T;
   index: number;
   onClick: (item: T) => void;
