@@ -13,7 +13,8 @@ org: "porto-st",
 project: "javascript-nextjs",
 
 // Only print logs for uploading source maps in CI
-silent: !process.env.CI,
+// silent: !process.env.CI,
+silent: true,
 authToken: process.env.SENTRY_AUTH_TOKEN,
 
 // For all available options, see:
