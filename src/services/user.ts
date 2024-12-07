@@ -22,3 +22,14 @@ export const apiGetAllUsers = async (params: any) => {
     throw error
   }
 }
+
+export const apiGetUserRoles = async () => {
+  try {
+    const response = await api.get('/users/roles')
+    
+    return response?.data?.roles
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
