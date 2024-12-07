@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { useState } from "react";
@@ -7,11 +6,7 @@ import { User } from "@/types/user";
 import { UserCard } from "./components";
 import { useGetAllUsers } from "@/hooks";
 import { GetAllUsersResponse } from "@/hooks/queries/useGetAllUsers";
-import { Input } from "../ui/input";
-import { Search } from "lucide-react";
-import InputIcon from "../InputIcon";
 import SearchInput from "../SearchInput";
-import { UserModal } from "..";
 
 interface UsersListProps {
   handleSelectUser: (user: User) => void
