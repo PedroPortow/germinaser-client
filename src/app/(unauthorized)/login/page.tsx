@@ -75,7 +75,7 @@ export default function Login() {
     postLogin(data);
     
   }
-
+  
   useEffect(() => {
     setIsClient(true);
   }, []);

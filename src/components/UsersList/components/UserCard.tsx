@@ -3,6 +3,7 @@
 import { Card } from "@ui/card";
 import { User } from "@/types/user";
 import { CardComponentProps } from "@/components/List/List";
+import { SquarePen, Trash2 } from "lucide-react";
 
 const UserCard: React.FC<CardComponentProps<User>> = ({ item: user, onClick }) => {
 
@@ -12,9 +13,14 @@ const UserCard: React.FC<CardComponentProps<User>> = ({ item: user, onClick }) =
       role="button"
       onClick={() => onClick(user)}
     >
-      <div className="w-full h-full flex flex-col">
-        <div className="flex w-full justify-between">
-          <h3 className="font-semibold">{user.name}</h3>
+      <div className="w-full h-full flex flex-row justify-between items-center">
+        <div className="flex w-full">
+          <h3 className="font-medium">{user.name}</h3>
+        </div>
+        <div className="flex row gap-2">
+          <SquarePen 
+            size={16}
+          />
         </div>
       </div>
     </Card>
