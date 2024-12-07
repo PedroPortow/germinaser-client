@@ -41,15 +41,12 @@ interface UserModalProps {
 const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
   const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
 
-  const buildFormValues = useCallback(
-    () => ({
-      email: user?.email || "",
-      name: user?.name || "",
-      role: user?.role || "",
-      credits: user?.credits ?? 0,
-    }),
-    [user]
-  );
+  const buildFormValues = useCallback(() => ({
+    email: user?.email || "",
+    name: user?.name || "",
+    role: user?.role || "",
+    credits: user?.credits ?? 0,
+  }), [user]);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
