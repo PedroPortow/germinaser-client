@@ -13,9 +13,11 @@ import InputIcon from "../InputIcon";
 import SearchInput from "../SearchInput";
 import { UserModal } from "..";
 
-const UsersList = () => {
-  const [selectedUser, setSelectedUser] = useState<User | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+interface UsersListProps {
+  handleSelectUser: (user: User) => void
+}
+
+const UsersList = ({ handleSelectUser }: UsersListProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [filterByName, setFilterByName] = useState<string>('')
 
@@ -27,11 +29,6 @@ const UsersList = () => {
     }
   })
 
-  const handleItemClick = (user: User) => {
-    setSelectedUser(user);
-    setIsModalOpen(true);
-  };
-
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
     setFilterByName(e.target.value);
@@ -42,11 +39,6 @@ const UsersList = () => {
         className="mb-4"
         onChange={handleSearchChange}
       />
-      <UserModal
-        user={selectedUser}
-        open={isModalOpen}
-        onOpenChange={setIsModalOpen}
-      />
       <List
         cardComponent={UserCard}
         isLoading={isLoading}
@@ -54,7 +46,7 @@ const UsersList = () => {
         getKey={user => user.id}
         perPage={10}
         data={data.users}
-        onCardClick={(item) => handleItemClick(item)}
+        onCardClick={(user) => handleSelectUser(user)}
         onPageChange={setCurrentPage}
       />
     </div>

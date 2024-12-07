@@ -3,14 +3,31 @@
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { useRouter } from "next/navigation";
-import { UsersList } from "@/components";
+import { UserModal, UsersList } from "@/components";
+import { useState } from "react";
+import { User } from "@/types/user";
 
 export default function Page() {
-  const router = useRouter()
+  const [selectedUser, setSelectedUser] = useState<User | null>(null)
+  const [isUserModalOpen, setIsUserModalOpen] = useState<boolean>(false)
 
+  const handleSelectUser = (user: User) => {
+    setSelectedUser(user)
+    setIsUserModalOpen(true)
+  }
+
+  const handleCreateNewUser = () => {
+    setSelectedUser(null)
+    setIsUserModalOpen(true)
+  }
+ 
   return (
     <div className="w-full max-w-[800px]">
+      <UserModal
+        user={selectedUser}
+        open={isUserModalOpen}
+        onOpenChange={setIsUserModalOpen}
+      />
       <Card className=" w-full py-4 px-5 flex flex-col ">
       <div className="flex flex-col md:flex-row items-start md:items-end justify-between">
         <div className="flex flex-col">
@@ -19,14 +36,16 @@ export default function Page() {
         </div>
         <Button 
           className="text-sm mt-4 md:mt w-full md:w-auto flex items-center" 
-          onClick={() => router.push('/bookings/new')}
+          onClick={handleCreateNewUser}
         >
           <Plus />
           Cadastrar Usuário
         </Button>
       </div>
       <div className="mt-4">
-        <UsersList />
+        <UsersList
+          handleSelectUser={handleSelectUser}
+        />
       </div>
     </Card>
     </div>
