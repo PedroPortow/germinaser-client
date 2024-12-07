@@ -11,13 +11,14 @@ import { Input } from "../ui/input";
 import { Search } from "lucide-react";
 import InputIcon from "../InputIcon";
 import SearchInput from "../SearchInput";
+import { UserModal } from "..";
 
-const UsersList = () => { 
+const UsersList = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [filterByName, setFilterByName] = useState<string>('')
- 
+
   const { data = {} as GetAllUsersResponse, isLoading } = useGetAllUsers({
     params: {
       page: currentPage,
@@ -25,23 +26,28 @@ const UsersList = () => {
       by_name: filterByName
     }
   })
-  
+
   const handleItemClick = (user: User) => {
     setSelectedUser(user);
     setIsModalOpen(true);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentPage(1); 
+    setCurrentPage(1);
     setFilterByName(e.target.value);
   };
   return (
     <div>
-      <SearchInput 
+      <SearchInput
         className="mb-4"
         onChange={handleSearchChange}
       />
-      <List 
+      <UserModal
+        user={selectedUser}
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+      />
+      <List
         cardComponent={UserCard}
         isLoading={isLoading}
         meta={data.meta}
