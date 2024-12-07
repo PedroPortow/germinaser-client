@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import RoleSelect from "../RoleSelect";
+import PasswordInput from "../PasswordInput";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Por favor, insira um email válido." }),
@@ -110,6 +111,23 @@ const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
               />
               <FormField
                 control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Senha</FormLabel>
+                    <FormControl>
+                      <PasswordInput
+                        placeholder="usuario@gmail.com"
+                        type="email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="role"
                 render={({ field }) => (
                   <FormItem>
@@ -122,6 +140,7 @@ const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
                       <RoleSelect 
                         value={field.value}
                         onValueChange={field.onChange}
+                        queryEnabled={open}
                       />
                     </FormControl>
                     <FormMessage />

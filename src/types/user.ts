@@ -1,4 +1,5 @@
 export type Role = 'owner' | 'admin' | 'user';
+
 export interface User {
   active_bookings_count: number;
   canceled_bookings_count: number;

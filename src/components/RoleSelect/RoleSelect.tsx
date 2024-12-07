@@ -12,10 +12,11 @@ import {
 interface RoleSelectProps {
   value?: string;
   onValueChange: (value: string) => void;
+  queryEnabled?: boolean;
 }
 
-const RoleSelect: React.FC<RoleSelectProps> = ({ value, onValueChange }) => {
-  const { data: roles } = useGetUserRoles({ enabled: true});
+const RoleSelect: React.FC<RoleSelectProps> = ({ value, onValueChange, queryEnabled }) => {
+  const { data: roles } = useGetUserRoles({ enabled: queryEnabled });
 
   return (
     <Select
@@ -23,7 +24,7 @@ const RoleSelect: React.FC<RoleSelectProps> = ({ value, onValueChange }) => {
       onValueChange={onValueChange}
     >
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Selecione uma sala" />
+        <SelectValue placeholder="Selecione um Cargo" />
       </SelectTrigger>
       <SelectContent>
         {roles?.map((role) => (
