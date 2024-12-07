@@ -3,7 +3,6 @@ import api from "./api";
 import { Params } from "@/hooks/queries/useGetDayAvailableTimeslots";
 import { Booking, CreateBookingParams, GetBookingsResponse } from "@/types/booking";
 import { Timeslot } from "@/types/timeslot";
-import * as Sentry from "@sentry/nextjs"; 
 
 interface AvailableSlotsResponse {
   available_slots: Timeslot[];
@@ -16,7 +15,6 @@ export const apiGetDayAvailableTimeslots = async (params: Params | undefined): P
     return response.data.available_slots;
   } catch (error) {
     console.error( error);
-    Sentry.captureException(error); 
     throw error;
   }
 };
@@ -28,7 +26,6 @@ export const apiGetBookings = async (params: any): Promise<GetBookingsResponse> 
     return response.data;
   } catch (error) {
     console.error( error);
-    Sentry.captureException(error); 
     throw error;
   }
 };
@@ -40,7 +37,6 @@ export const apiPostBooking = async (params: CreateBookingParams): Promise<Booki
     return response.data;
   } catch (error) {
     console.error( error);
-    Sentry.captureException(error); 
     throw error;
   }
 };
@@ -53,7 +49,6 @@ export const apiCancelBooking = async (id: number): Promise<Booking[]> => {
     return response.data;
   } catch (error) {
     console.error( error);
-    Sentry.captureException(error); 
     throw error;
   }
 };
