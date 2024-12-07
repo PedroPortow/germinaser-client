@@ -3,7 +3,7 @@
 import { Card } from "@ui/card";
 import { User } from "@/types/user";
 import { CardComponentProps } from "@/components/List/List";
-import { SquarePen, Trash2 } from "lucide-react";
+import { SquarePen } from "lucide-react";
 
 const UserCard: React.FC<CardComponentProps<User>> = ({ item: user, onClick }) => {
 
@@ -20,6 +20,7 @@ const UserCard: React.FC<CardComponentProps<User>> = ({ item: user, onClick }) =
         <div className="flex row gap-2">
           <SquarePen 
             size={16}
+            color=""
           />
         </div>
       </div>

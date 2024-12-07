@@ -4,7 +4,7 @@ import React from "react";
 import InputIcon from "../InputIcon";
 import { Search } from "lucide-react";
 
-interface SearchInputProps {
+interface SearchInputProps extends React.InputHTMLAttributes<HTMLInputElement>  {
   className?: string;
 }
 

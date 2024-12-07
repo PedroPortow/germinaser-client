@@ -8,6 +8,7 @@ type UseGetAllUsersOptions = Omit<UseQueryOptions<User[], Error>, 'queryKey' | '
 export type Params = {
   page: number;
   per_page: number;
+  by_name: string;
 };
 
 interface UseGetAllUsersProps {

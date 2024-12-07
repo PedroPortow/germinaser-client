@@ -7,16 +7,22 @@ import { User } from "@/types/user";
 import { UserCard } from "./components";
 import { useGetAllUsers } from "@/hooks";
 import { GetAllUsersResponse } from "@/hooks/queries/useGetAllUsers";
+import { Input } from "../ui/input";
+import { Search } from "lucide-react";
+import InputIcon from "../InputIcon";
+import SearchInput from "../SearchInput";
 
 const UsersList = () => { 
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [filterByName, setFilterByName] = useState<string>('')
  
   const { data = {} as GetAllUsersResponse, isLoading } = useGetAllUsers({
     params: {
       page: currentPage,
-      per_page: 6
+      per_page: 6,
+      by_name: filterByName
     }
   })
   
@@ -25,8 +31,16 @@ const UsersList = () => {
     setIsModalOpen(true);
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentPage(1); 
+    setFilterByName(e.target.value);
+  };
   return (
     <div>
+      <SearchInput 
+        className="mb-4"
+        onChange={handleSearchChange}
+      />
       <List 
         cardComponent={UserCard}
         isLoading={isLoading}
