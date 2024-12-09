@@ -27,6 +27,8 @@ import PasswordInput from "../PasswordInput";
 import useCreateUser from "@/hooks/mutations/useCreateUser";
 import useUpdateUser from "@/hooks/mutations/useUpdateUser";
 import NumberInput from "../NumberInput";
+import { Trash2 } from "lucide-react";
+import useDeleteUser from "@/hooks/mutations/useDeleteUser";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Por favor, insira um email válido." }),
@@ -46,6 +48,11 @@ const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
 
   const { mutate: createUser } = useCreateUser({})
   const { mutate: updateUser } = useUpdateUser({})
+  const { mutate: deleteUser } = useDeleteUser({})
+
+  function onSuccess() {
+
+  }
 
   const buildFormValues = useCallback(() => ({
     email: user?.email || "",
@@ -67,31 +74,31 @@ const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
     setIsCancelModalOpen((prevState) => !prevState);
   };
 
+  const toggleModal = () => {
+    onOpenChange(false)
+  }
+
   const handleRemoveUser = () => {
-    // Handle removing the user here
+    if (user) deleteUser(user.id)
   };
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    // Handle form submission here
-    // createUser(data)
-    console.log({data})
-
     if (user) {
       updateUser({ id: user.id, params: data })
     } else {
       createUser(data)
     }
-
   }
 
   return (
     <>
       <ConfirmationModal
         open={isCancelModalOpen}
+        actionButtonVariant={'destructive'}
         onOpenChange={setIsCancelModalOpen}
         onCancel={toggleConfirmationModal}
         title="Tem certeza?"
-        description="Esta ação não pode ser desfeita. Reservas canceladas até o dia anterior têm seu crédito ressarcido automaticamente."
+        description="Esta ação não pode ser desfeita. As informações do usuário vão ser perdidas, todas suas reservas agendadas também serão canceladas"
         onConfirm={handleRemoveUser}
       />
       <Dialog onOpenChange={onOpenChange} open={open}>
@@ -131,7 +138,6 @@ const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
                   </FormItem>
                 )}
               />
-
               {!user && (
                 <div>
                   <FormItem>
@@ -143,7 +149,6 @@ const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
                   </FormItem>
                 </div>
               )}
-
               <FormField
                 control={form.control}
                 name="role"
@@ -161,7 +166,7 @@ const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
                   </FormItem>
                 )}
               />
-
+              <div className="flex items-end justify-between">
               <FormField
                 control={form.control}
                 name="credits"
@@ -170,20 +175,26 @@ const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
                     <FormLabel>Créditos</FormLabel>
                     <FormControl>
                       <NumberInput 
-                         value={field.value} 
-                         onChange={field.onChange}
-                         className="max-w-[56px]"
-                         type="number" 
-                         placeholder="0" 
+                        value={field.value} 
+                        onChange={field.onChange}
+                        className="w-[56px] text-center"
+                        type="number" 
+                        placeholder="0" 
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
+              <Button
+                variant='destructive'
+                onClick={toggleConfirmationModal}
+              >
+                <Trash2 /> Remover 
+              </Button>
+              </div>
               <div className="flex justify-end gap-2">
-                <Button type="button" variant='outline'>
+                <Button type="button" variant='outline' onClick={() => onOpenChange(false)}>
                   Cancelar
                 </Button>
                 <Button type="submit">

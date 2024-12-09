@@ -28,7 +28,7 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
 
     return (
       <span className="flex gap-2 items-center">
-        <Button onClick={handleDecrement} variant="outline" type="button">
+        <Button onClick={handleDecrement} variant="outline" type="button" className="w-[50px]">
           <Minus />
         </Button>
         <Input
@@ -39,7 +39,7 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
           onChange={handleChange}
           {...props}
         />
-        <Button onClick={handleIncrement} variant="outline" type="button">
+        <Button onClick={handleIncrement} variant="outline" type="button" className="w-[50px]">
           <Plus />
         </Button>
       </span>

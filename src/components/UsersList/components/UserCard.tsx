@@ -20,7 +20,6 @@ const UserCard: React.FC<CardComponentProps<User>> = ({ item: user, onClick }) =
         <div className="flex row gap-2">
           <SquarePen 
             size={16}
-            color=""
           />
         </div>
       </div>

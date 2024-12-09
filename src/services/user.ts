@@ -57,4 +57,17 @@ export const apiUpdateUser = async (userId: number, params: Record<string, any>)
     throw error
   }
 }
+// TODO: fix this
+export const apiDeleteUser = async (userId: number) => {
+  try {
+    const response = await api.delete(`/users/${userId}`)
+    
+    return response.data
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+
 
