@@ -30,6 +30,7 @@ import NumberInput from "../NumberInput";
 import { Trash2 } from "lucide-react";
 import useDeleteUser from "@/hooks/mutations/useDeleteUser";
 import { useToast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Por favor, insira um email válido." }),
@@ -46,6 +47,8 @@ interface UserModalProps {
 
 const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
   const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
+  
+  const queryClient = useQueryClient();
 
   const { mutate: createUser } = useCreateUser({
     onSuccess: onCreateUser 
@@ -60,19 +63,28 @@ const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
   const { toast } = useToast()
 
   function onCreateUser() {
+    queryClient.invalidateQueries({ queryKey: ['/users']});
+
     toast({
       title: "Usuário cadastrado com sucesso"
     })
+    onOpenChange(false)
   }
   function onUpdateUser() {
+    queryClient.invalidateQueries({ queryKey: ['/users']});
     toast({
-      title: "Usuário cadastrado com sucesso",
+      title: "Informações alteradas com sucesso",
     })
+
+    onOpenChange(false)
   }
   function onDeleteUser() {
+    queryClient.invalidateQueries({ queryKey: ['/users']});
     toast({
       title: 'Usuário removido com sucesso',
     })
+    
+    toggleConfirmationModal()
   }
 
   const buildFormValues = useCallback(() => ({

@@ -21,7 +21,7 @@ import Image from "next/image"
 import logoImg from '@/../public/logonolabel.png'
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/hooks";
-import { ChevronUp, Inbox, User2 } from "lucide-react"
+import { ChevronUp, Inbox, User, User2 } from "lucide-react"
 import { Badge } from "../ui/badge"
 import { AdminSidebarGroup, UserSidebarGroup } from "./components"
 
@@ -37,7 +37,7 @@ const ADMIN_SIDEBAR_ITEMS = [
   {
     title: "Usuários",
     url: "/admin/users",
-    icon: Inbox,
+    icon: User,
   },
 ]
 

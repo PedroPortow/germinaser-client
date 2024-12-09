@@ -23,7 +23,7 @@ export interface GetAllUsersResponse {
 
 export default function useGetRooms({ params, ...options }: UseGetAllUsersProps) {
   return useQuery<GetAllUsersResponse, Error>({
-    queryKey: ['getAllUsers', params],
+    queryKey: ['/users', params],
     queryFn: () => apiGetAllUsers(params),
     ...options,
   });
