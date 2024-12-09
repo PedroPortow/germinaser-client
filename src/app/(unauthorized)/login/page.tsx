@@ -97,7 +97,10 @@ export default function Login() {
         />
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+             onSubmit={event => {
+              event.preventDefault();
+              form.handleSubmit(onSubmit)(event);
+            }}
             className="space-y-4"
             noValidate
           >

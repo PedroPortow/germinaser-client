@@ -18,7 +18,7 @@ export default function RootLayout({ children }:{ children: React.ReactNode }) {
             <SidebarTrigger />
           </Header>
         )}
-          <div className={`"h-full min-w-[75vw] min-h-[100vh] p-4 flex ${isMobile ? 'items-start' : 'items-center'} justify-center bg-gray-50 px-4"`}>
+          <div className={`"h-full min-w-[75vw] min-h-[100vh] p-4 flex items-start justify-center bg-gray-50 px-4"`}>
             {children}
           </div>
       </main>
