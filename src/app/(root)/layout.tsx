@@ -1,27 +1,15 @@
 "use client";
-import { Inbox } from "lucide-react"
 import { SidebarProvider, SidebarTrigger } from "@ui/sidebar"
-import { Header, AppSidebar } from "@/components";
+import AppSidebar from '@/components/AppSidebar/AppSidebar'
 import { useIsMobile } from "@/hooks/use-mobile";
+import Header from "@/components/Header";
 
-
-
-const SIDEBAR_ITEMS = [
-  {
-    title: "Reservas",
-    url: "/bookings",
-    icon: Inbox,
-  },
-]
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }:{ children: React.ReactNode }) {
   const isMobile = useIsMobile()
 
   return (
     <SidebarProvider>
-      <AppSidebar
-        items={SIDEBAR_ITEMS}
-      />
+      <AppSidebar />
       <main
         className="overflow-hidden w-full"
       >
@@ -30,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <SidebarTrigger />
           </Header>
         )}
-          <div className={`"h-full min-w-[75vw] min-h-[100vh] p-4 flex ${isMobile ? 'items-start' : 'items-center'} justify-center bg-gray-50 px-4"`}>
+          <div className={`"h-full min-w-[75vw] min-h-[100vh] p-4 flex items-start justify-center bg-gray-50 px-4"`}>
             {children}
           </div>
       </main>

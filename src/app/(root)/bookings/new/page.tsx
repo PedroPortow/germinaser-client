@@ -15,17 +15,21 @@ import {
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ClinicSelect, DatePicker, InfoCard, RoomSelect } from "@/components";
 import { useAuthContext, useCreateBooking, useGetDayAvailableTimeslots } from "@/hooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AnimatePresence } from "framer-motion"; 
 import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { CalendarCheck2, Coins } from "lucide-react";
 import { formatSubmitStartTime } from "@/helpers/datime";
 import { useRouter } from "next/navigation";
+import InfoCard from "@/components/InfoCard";
+import CreditsIcon from "@/components/CreditsIcon";
+import BookingIcon from "@/components/BookingIcon";
+import ClinicSelect from "@/components/ClinicSelect";
+import RoomSelect from "@/components/RoomSelect";
+import DatePicker from "@/components/DatePicker";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Por favor, insira um name válido." }),
@@ -40,9 +44,6 @@ const FormSchema = z.object({
 export default function Page() {
   const router = useRouter()
 
-  // TODO: Remove this bullshit i cant stop doing gambiarras
-  const [isClient, setIsClient] = useState(false);
-  
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -77,11 +78,6 @@ export default function Page() {
 
   }
 
-  // TODO: Remove this bullshit i cant stop doing gambiarras
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false)
 
   const selectedClinicId = form.watch("clinic_id");
@@ -108,22 +104,18 @@ export default function Page() {
     })
   }
 
-  if (!isClient) {
-    return null; 
-  }
-
   return (
     <div className="w-full max-w-[500px] md:py-4 md:px-5">
       <div className="flex gap-2 mb-4">
         <InfoCard 
-          icon={<Coins />}
+          icon={<CreditsIcon />}
           title='Créditos'
           value={user?.credits}
         />
         <InfoCard 
           title="Reservas atuais"
           value={user?.active_bookings_count}
-          icon={<CalendarCheck2 />}
+          icon={<BookingIcon />}
         />
       </div>
       <Card className="w-full  py-4 px-5">
