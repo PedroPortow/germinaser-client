@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { BookingsList } from "@/components";
-import { Plus } from "lucide-react";
-
+import BookingsList from "@/components/BookingsList";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Plus } from "lucide-react";
+
 import { useRouter } from "next/navigation";
 
 export default function Page() {
   const router = useRouter()
+
 
   return (
     <div className="w-full max-w-[800px]">

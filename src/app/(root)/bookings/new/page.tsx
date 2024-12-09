@@ -15,7 +15,6 @@ import {
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BookingIcon, ClinicSelect, CreditsIcon, DatePicker, InfoCard, RoomSelect } from "@/components";
 import { useAuthContext, useCreateBooking, useGetDayAvailableTimeslots } from "@/hooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AnimatePresence } from "framer-motion"; 
@@ -25,6 +24,12 @@ import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { formatSubmitStartTime } from "@/helpers/datime";
 import { useRouter } from "next/navigation";
+import InfoCard from "@/components/InfoCard";
+import CreditsIcon from "@/components/CreditsIcon";
+import BookingIcon from "@/components/BookingIcon";
+import ClinicSelect from "@/components/ClinicSelect";
+import RoomSelect from "@/components/RoomSelect";
+import DatePicker from "@/components/DatePicker";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Por favor, insira um name válido." }),

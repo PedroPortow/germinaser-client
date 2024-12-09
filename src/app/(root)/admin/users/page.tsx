@@ -3,9 +3,10 @@
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { UserModal, UsersList } from "@/components";
 import { useState } from "react";
 import { User } from "@/types/user";
+import UserModal from "@/components/UserModal";
+import UsersList from "@/components/UsersList";
 
 export default function Page() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null)

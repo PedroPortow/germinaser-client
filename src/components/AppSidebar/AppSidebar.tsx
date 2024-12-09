@@ -41,7 +41,7 @@ const ADMIN_SIDEBAR_ITEMS = [
   },
 ]
 
-export default function Sidebar() {
+export default function AppSidebar() {
   const router = useRouter();
   const { user, JWT_LOCAL_STORAGE_KEY } = useAuthContext()
 

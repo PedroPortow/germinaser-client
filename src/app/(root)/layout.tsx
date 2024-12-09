@@ -1,9 +1,10 @@
 "use client";
 import { SidebarProvider, SidebarTrigger } from "@ui/sidebar"
-import { Header, AppSidebar } from "@/components";
+import AppSidebar from '@/components/AppSidebar/AppSidebar'
 import { useIsMobile } from "@/hooks/use-mobile";
+import Header from "@/components/Header";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }:{ children: React.ReactNode }) {
   const isMobile = useIsMobile()
 
   return (
