@@ -24,6 +24,7 @@ import { useAuthContext } from "@/hooks";
 import { ChevronUp, Inbox, User, User2 } from "lucide-react"
 import { Badge } from "../ui/badge"
 import { AdminSidebarGroup, UserSidebarGroup } from "./components"
+import { USER_ROLE } from "@/constants/user"
 
 const USER_SIDEBAR_ITEMS = [
   {
@@ -71,7 +72,9 @@ export default function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <UserSidebarGroup items={USER_SIDEBAR_ITEMS} />
-        <AdminSidebarGroup items={ADMIN_SIDEBAR_ITEMS} />
+        {user?.role !== USER_ROLE.USER && (
+          <AdminSidebarGroup items={ADMIN_SIDEBAR_ITEMS} />
+        )}
       </SidebarContent>
       <SidebarFooter>
           <SidebarMenu>
