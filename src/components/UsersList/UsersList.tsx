@@ -32,6 +32,7 @@ const UsersList = ({ handleSelectUser }: UsersListProps) => {
     <div>
       <SearchInput
         className="mb-4"
+        placeholder="Pesquisar por nome"
         onChange={handleSearchChange}
       />
       <List

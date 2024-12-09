@@ -29,6 +29,7 @@ import useUpdateUser from "@/hooks/mutations/useUpdateUser";
 import NumberInput from "../NumberInput";
 import { Trash2 } from "lucide-react";
 import useDeleteUser from "@/hooks/mutations/useDeleteUser";
+import { useToast } from "@/hooks/use-toast";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Por favor, insira um email válido." }),
@@ -46,12 +47,32 @@ interface UserModalProps {
 const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
   const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
 
-  const { mutate: createUser } = useCreateUser({})
-  const { mutate: updateUser } = useUpdateUser({})
-  const { mutate: deleteUser } = useDeleteUser({})
+  const { mutate: createUser } = useCreateUser({
+    onSuccess: onCreateUser 
+  })
+  const { mutate: updateUser } = useUpdateUser({
+    onSuccess: onUpdateUser
+  })
+  const { mutate: deleteUser } = useDeleteUser({
+    onSuccess: onDeleteUser 
+  })
 
-  function onSuccess() {
+  const { toast } = useToast()
 
+  function onCreateUser() {
+    toast({
+      title: "Usuário cadastrado com sucesso"
+    })
+  }
+  function onUpdateUser() {
+    toast({
+      title: "Usuário cadastrado com sucesso",
+    })
+  }
+  function onDeleteUser() {
+    toast({
+      title: 'Usuário removido com sucesso',
+    })
   }
 
   const buildFormValues = useCallback(() => ({
@@ -73,10 +94,6 @@ const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
   const toggleConfirmationModal = () => {
     setIsCancelModalOpen((prevState) => !prevState);
   };
-
-  const toggleModal = () => {
-    onOpenChange(false)
-  }
 
   const handleRemoveUser = () => {
     if (user) deleteUser(user.id)
@@ -177,7 +194,7 @@ const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
                       <NumberInput 
                         value={field.value} 
                         onChange={field.onChange}
-                        className="w-[56px] text-center"
+                        className="text-center"
                         type="number" 
                         placeholder="0" 
                       />
@@ -188,13 +205,23 @@ const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
               />
               <Button
                 variant='destructive'
-                onClick={toggleConfirmationModal}
+                onClick={event => {
+                  event.preventDefault()
+                  toggleConfirmationModal()
+                }}
               >
                 <Trash2 /> Remover 
               </Button>
               </div>
               <div className="flex justify-end gap-2">
-                <Button type="button" variant='outline' onClick={() => onOpenChange(false)}>
+                <Button 
+                  type="button" 
+                  variant='outline' 
+                  onClick={event => {
+                    event.preventDefault()
+                    onOpenChange(false)
+                  }}
+                >
                   Cancelar
                 </Button>
                 <Button type="submit">
