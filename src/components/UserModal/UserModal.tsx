@@ -24,6 +24,9 @@ import {
 import { Input } from "../ui/input";
 import RoleSelect from "../RoleSelect";
 import PasswordInput from "../PasswordInput";
+import useCreateUser from "@/hooks/mutations/useCreateUser";
+import useUpdateUser from "@/hooks/mutations/useUpdateUser";
+import NumberInput from "../NumberInput";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Por favor, insira um email válido." }),
@@ -40,6 +43,9 @@ interface UserModalProps {
 
 const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
   const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
+
+  const { mutate: createUser } = useCreateUser({})
+  const { mutate: updateUser } = useUpdateUser({})
 
   const buildFormValues = useCallback(() => ({
     email: user?.email || "",
@@ -67,6 +73,15 @@ const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     // Handle form submission here
+    // createUser(data)
+    console.log({data})
+
+    if (user) {
+      updateUser({ id: user.id, params: data })
+    } else {
+      createUser(data)
+    }
+
   }
 
   return (
@@ -80,7 +95,9 @@ const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
         onConfirm={handleRemoveUser}
       />
       <Dialog onOpenChange={onOpenChange} open={open}>
-        <DialogContent>
+        <DialogContent
+          aria-describedby={undefined}
+        >
           <DialogHeader>
             <DialogTitle className="mb-1 justify-between flex items-center text-start">
               {Boolean(user) ? "Editar Usuário" : "Criar Usuário"}
@@ -152,14 +169,23 @@ const UserModal: React.FC<UserModalProps> = ({ user, open, onOpenChange }) => {
                   <FormItem>
                     <FormLabel>Créditos</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="0" {...field} />
+                      <NumberInput 
+                         value={field.value} 
+                         onChange={field.onChange}
+                         className="max-w-[56px]"
+                         type="number" 
+                         placeholder="0" 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <div className="flex justify-end">
+              <div className="flex justify-end gap-2">
+                <Button type="button" variant='outline'>
+                  Cancelar
+                </Button>
                 <Button type="submit">
                   {Boolean(user) ? "Salvar alterações" : "Cadastrar usuário"}
                 </Button>
